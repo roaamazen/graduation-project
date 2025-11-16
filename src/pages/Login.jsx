@@ -1,126 +1,148 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { FaFacebookF, FaGoogle } from "react-icons/fa";
+import { FiMail, FiLock, FiArrowLeft } from "react-icons/fi";
+import { GraduationCap } from "lucide-react";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({});
+  const [passwordError, setPasswordError] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newErrors = {};
 
-    // Validation for Email
-    if (!email) {
-      newErrors.email = "Email is required";
-    } else if (!email.includes("@")) {
-      newErrors.email = "Email must include @";
+    //Validation
+    const isValid =
+      password.length >= 8 &&
+      /[A-Z]/.test(password) &&
+      /[a-z]/.test(password) &&
+      /[0-9]/.test(password) &&
+      /[^A-Za-z0-9]/.test(password);
+
+    // يمنع الsubmit لو في خطأ
+    if (!isValid) {
+      setPasswordError(
+        "Password must be at least 8 characters, include uppercase, lowercase, number, and a special character."
+      );
+      return; 
     }
 
-    // Validation for Password
- if (!password) {
-    newErrors.password = "Password is required";
-  } else if (password.length < 8) {
-    newErrors.password = "Password must be at least 8 characters";
-  }
+    setPasswordError(""); // لو صح
 
-  setErrors(newErrors);
+    console.log("Login:", { email, password });
+    alert("Login submitted (check console)");
+  };
 
-  // هاي رسالة بتظهر لمن يكون كلشي تمام راح نشيلها بعدي بس عشان التشيك
-  if (Object.keys(newErrors).length === 0) {
-    alert("Login successful!");
-  }
-};
+  const goBack = () => {
+    window.location.href = "/";
+  };
+
+  const goToSignup = () => {
+    window.location.href = "/signup";
+  };
 
   return (
-    <div className="font-sans">
-      <div className="relative min-h-screen flex flex-col sm:justify-center items-center bg-gray-100">
-        <div className="relative sm:max-w-sm w-full">
-          {/* Background cards */}
-          <div className="card shadow-lg w-full h-full rounded-3xl absolute transform -rotate-6" style={{ backgroundColor: "#6F3D57" }}></div>
-          <div className="card shadow-lg w-full h-full rounded-3xl absolute transform rotate-6" style={{ backgroundColor: "#415e86ff" }}></div>
+    <div className="min-h-screen bg-gradient-to-br from-[#0D1224] via-[#151B32] to-[#1E2A78] flex items-center justify-center p-4 relative text-[#E4E7EB]">
 
-          <div className="relative w-full rounded-3xl px-6 py-8 bg-gray-100 shadow-md">
-            <h2 className="text-center text-2xl font-semibold text-gray-700 italic tracking-wide drop-shadow-md">
-              Login
-            </h2>
+      {/* Back Button */}
+      <button
+        onClick={goBack}
+        className="absolute top-6 left-6 text-[#A8B0C3] hover:text-[#7A5CFF] flex items-center gap-2 transition-colors"
+      >
+        <FiArrowLeft className="w-5 h-5" />
+        <span>Back to Home</span>
+      </button>
 
-            <form onSubmit={handleSubmit} className="mt-8 space-y-6">
-              {/* Email */}
+      <div className="w-full max-w-md relative">
+
+        {/* Mentora Logo Outside Card */}
+        <div className="flex items-center justify-center mb-6 relative z-10">
+          <div className="w-12 h-12 bg-[#7A5CFF] rounded-lg flex items-center justify-center shadow-lg">
+            <GraduationCap size={30} strokeWidth={2} />
+          </div>
+          <span className="text-white text-2xl font-semibold ml-2">Mentora</span>
+        </div>
+
+        {/* Login Card */}
+        <div className="bg-[#151B32]/70 border border-[#1F263C] backdrop-blur-sm rounded-2xl shadow-2xl p-8 relative z-0">
+
+          <h2 className="text-white text-3xl mb-2 text-center">Welcome Back</h2>
+          <p className="text-[#A8B0C3] text-center mb-6">Login to continue your journey</p>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+
+            {/* Email */}
+            <div className="space-y-2">
+              <label htmlFor="email" className="text-sm text-[#A8B0C3] mb-2 block">Email</label>
               <div className="relative">
+                <FiMail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A6EDB]" />
                 <input
+                  id="email"
                   type="email"
-                  placeholder="Email"
-                  className={`pl-4 block w-full border-none bg-gray-100 h-12 rounded-xl shadow-lg hover:bg-[#EDE6F2] focus:ring-0 ${errors.email ? "border-2 border-red-500" : ""}`}
+                  placeholder="your.email@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="pl-11 w-full px-4 py-3 rounded-xl bg-[#0D1224] border border-[#1F263C] text-white placeholder:text-[#A8B0C3]/40 focus:border-[#7A5CFF] focus:ring-2 focus:ring-[#7A5CFF] outline-none"
                 />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
               </div>
+            </div>
 
-              {/* Password */}
+            {/* Password */}
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm text-[#A8B0C3] mb-2 block">
+                Password
+              </label>
+
               <div className="relative">
+                <FiLock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#4A6EDB]" />
+
                 <input
+                  id="password"
                   type="password"
-                  placeholder="Password"
-                  className={`pl-4 block w-full border-none bg-gray-100 h-12 rounded-xl shadow-lg hover:bg-[#EDE6F2] focus:ring-0 ${errors.password ? "border-2 border-red-500" : ""}`}
+                  placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="pl-11 w-full px-4 py-3 rounded-xl bg-[#0D1224] border border-[#1F263C] text-white placeholder:text-[#A8B0C3]/40 focus:border-[#7A5CFF] focus:ring-2 focus:ring-[#7A5CFF] outline-none"
                 />
-                {errors.password && <p className="text-red-500 text-sm mt-1">{errors.password}</p>}
               </div>
 
-              {/* Remember + Forgot */}
-              <div className="flex items-center justify-between">
-                <label htmlFor="remember_me" className="inline-flex items-center cursor-pointer">
-                  <input
-                    id="remember_me"
-                    type="checkbox"
-                    className="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                  />
-                  <span className="ml-2 text-sm text-gray-600">Remember me</span>
-                </label>
-                <Link to="#" className="text-sm text-gray-600 underline hover:text-gray-900">
-                  Forgot password?
-                </Link>
-              </div>
+              {/* Error Message */}
+              {passwordError && (
+                <p className="text-red-500 text-sm mt-1">{passwordError}</p>
+              )}
+            </div>
 
-              {/* Login button */}
-              <div>
-                <button className="bg-[#6F3D57] w-full py-3 rounded-xl text-white shadow-xl hover:shadow-inner focus:outline-none transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105">
-                  Login
-                </button>
-              </div>
+            {/* Remember me */}
+            <div className="flex items-center justify-between text-sm">
+              <label className="flex items-center gap-2 text-[#A8B0C3] cursor-pointer">
+                <input type="checkbox" className="rounded border-[#1F263C] bg-[#0D1224]" />
+                Remember me
+              </label>
+              <button type="button" className="text-[#7A5CFF] hover:text-[#A8B0C3]">Forgot Password?</button>
+            </div>
 
-              {/* Divider */}
-              <div className="flex items-center text-center mt-6">
-                <hr className="border-gray-300 border-1 w-full rounded-md"/>
-                <span className="block font-medium text-sm text-gray-600 w-full">Or continue with</span>
-                <hr className="border-gray-300 border-1 w-full rounded-md"/>
-              </div>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              className="w-full bg-[#7A5CFF] hover:bg-[#6244e8] text-white py-3 rounded-xl font-medium shadow-lg transition"
+            >
+              Login
+            </button>
+          </form>
 
-              {/* Social buttons */}
-              <div className="flex justify-center mt-6 gap-4">
-                <button className="bg-[#415e86ff] p-4 rounded-full text-white shadow-xl hover:shadow-inner transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105">
-                  <FaFacebookF size={20} /> 
-                </button>
-                
-                <button className="bg-[#6F3D57] p-4 rounded-full text-white shadow-xl hover:shadow-inner transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-105">
-                  <FaGoogle size={20} />
-                </button>
-              </div>
-
-              {/* Signup link */}
-              <div className="mt-6 flex justify-center items-center">
-                <span className="mr-2 text-gray-700">New here?</span>
-                <Link to="/signup" className="text-blue-500 font-medium hover:underline transition duration-500 ease-in-out transform hover:-translate-x hover:scale-105">
-                  Create an account
-                </Link>
-              </div>
-            </form>
+          {/* Signup Link */}
+          <div className="mt-6 text-center">
+            <p className="text-[#A8B0C3]">
+              Don't have an account?{" "}
+              <button onClick={goToSignup} className="text-[#4A6EDB] hover:text-[#7A5CFF]">Sign Up</button>
+            </p>
           </div>
         </div>
+
+        {/* Decorative blurred circles */}
+        <div className="absolute top-20 left-10 w-20 h-20 bg-[#7A5CFF]/20 rounded-full blur-xl" />
+        <div className="absolute bottom-20 right-10 w-32 h-32 bg-[#4A6EDB]/20 rounded-full blur-xl" />
       </div>
     </div>
   );
