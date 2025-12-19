@@ -1,18 +1,38 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";     // ← صحّحت الاسم هنا
+import StudyPlanner from "./pages/StudyPlanner";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-
+import Dashboard from "./pages/Dashboard.jsx";
+import ForgotPassword from "./pages/ForgotPassword";
+import Profile from "./pages/profile";
+import Home from "./pages/Home";
+import Todo from "./pages/ToDo";
+import Timer from "./pages/Timer";
+import Notes from "./pages/Notes";
+import Planner from "./pages/Planner";
+import Attendance from "./pages/Attendance";
+import CareerBuilder from "./pages/CareerBuilder";
+import Quiz from "./pages/Quiz";
 
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />     {/* الصفحة الرئيسية */}
+        <Route path="/" element={<Home/>} />     {/* الصفحة الرئيسية */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        
+        <Route path="/study-planner" element={<StudyPlanner />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/todo" element={<Todo />} />
+        <Route path="/timer" element={<Timer />} />
+        <Route path="/notes" element={<Notes />} />
+        <Route path="/planner" element={<Planner />} />
+        <Route path="/attendance" element={<Attendance />} />
+        <Route path="/career-builder" element={<CareerBuilder />} />
+        <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </BrowserRouter>
   );

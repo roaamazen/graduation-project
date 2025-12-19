@@ -19,8 +19,8 @@ function Hero() {
           <span className="text-[#2C3E3F] text-2xl font-semibold select-none">Mentora</span>
         </div>
         <div className="flex items-center gap-4">
-          <Link 
-          to="/Login"
+          <Link
+          to="/study-planner"
           className="bg-[#6B9080] hover:bg-[#5A7A6B] text-white px-6 py-3 shadow-lg rounded-full text-sm transition-all">
             Login  </Link>
         
@@ -39,7 +39,7 @@ function Hero() {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Link
-                to="/Login"
+                to="/login"
                 className="flex items-center justify-center gap-2 bg-[#6B9080] hover:bg-[#5A7A6B] text-white px-8 py-4 text-lg rounded-2xl shadow-lg transition-all"
               >
                 Get Started

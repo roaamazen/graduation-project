@@ -37,6 +37,9 @@ export default function Login() {
     window.location.href = "/signup";
   };
 
+  const goToForgotPassword = () => {
+    window.location.href = "/ForgotPassword";
+  };
   return (
     <div className="min-h-screen bg-[#F6FFF8] flex items-center justify-center p-4 relative text-[#2C3E3F]">
 
@@ -115,7 +118,7 @@ export default function Login() {
                 <input type="checkbox" className="rounded border-[#A4C3B2]" />
                 Remember me
               </label>
-              <button type="button" className="text-[#6B9080] hover:text-[#2C3E3F]">
+              <button  onClick={goToForgotPassword}  className="text-[#6B9080] hover:text-[#2C3E3F]">
                 Forgot Password?
               </button>
             </div>
