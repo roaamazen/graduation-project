@@ -108,16 +108,17 @@ export default function Dashboard() {
     <header className="px-6 py-4 flex items-center justify-between shadow-lg"
       style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
           <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
         </div>
         <span className="text-white text-xl font-bold">Mentora</span>
       </div>
 
       <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Study Planner</button>
-        <button onClick={() => navigate('/profile')} className="text-white hover:underline">
+        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Study Planner</button>
+        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Career Builder</button>
+        <button onClick={() => navigate('/dashboard')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Dashboard</button>
+        <button onClick={() => navigate('/profile')} className="text-white hover:bg-white/20 transition-all duration-300 p-2 rounded-lg">
           <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
         </button>
       </nav>

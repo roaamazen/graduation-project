@@ -24,7 +24,7 @@ export default function Notes() {
   };
 
   const [notes, setNotes] = useState([
-    { id: 1, title: 'Important Formulas', content: 'Newton\'s laws, Kinematic equations, Energy conservation', date: '2024-12-15' },
+    { id: 1, title: 'web eaxm', content: 'Html,css', date: '2024-12-15' },
   ]);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
@@ -60,7 +60,7 @@ export default function Notes() {
     <header className="px-6 py-4 flex items-center justify-between shadow-lg"
       style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
           <BookMarked className="w-6 h-6" style={{ color: M.primary }} />
         </div>
         <span className="text-white text-xl font-bold">Notes</span>

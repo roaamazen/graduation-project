@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FiMail, FiLock, FiArrowLeft } from "react-icons/fi";
 import { GraduationCap } from "lucide-react";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -26,7 +28,7 @@ export default function Login() {
 
     setPasswordError("");
     console.log("Login:", { email, password });
-    alert("Login submitted (check console)");
+    navigate('/study-planner');
   };
 
   const goBack = () => {
@@ -38,7 +40,7 @@ export default function Login() {
   };
 
   const goToForgotPassword = () => {
-    window.location.href = "/ForgotPassword";
+    window.location.href = "/forgot-password";
   };
   return (
     <div className="min-h-screen bg-[#F6FFF8] flex items-center justify-center p-4 relative text-[#2C3E3F]">
@@ -125,7 +127,7 @@ export default function Login() {
 
             {/* Submit */}
             <button
-              type="submit"
+             type="submit"
               className="w-full bg-[#6B9080] hover:bg-[#577466] text-white py-3 rounded-xl font-medium shadow-lg transition"
             >
               Login

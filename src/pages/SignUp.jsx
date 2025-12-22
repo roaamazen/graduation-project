@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { FiMail, FiLock, FiUser, FiArrowLeft } from "react-icons/fi";
 import { GraduationCap } from "lucide-react";
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,7 +44,7 @@ export default function SignUp() {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      alert("Account created successfully!");
+      navigate('/study-planner');
     }
   };
 

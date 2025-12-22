@@ -13,6 +13,8 @@ import Notes from "./pages/Notes";
 import Planner from "./pages/Planner";
 import Attendance from "./pages/Attendance";
 import CareerBuilder from "./pages/CareerBuilder";
+import CreateCareerBuilder from "./pages/CreateCareerBuilder";
+import AboutUs from "./pages/AboutUs";
 import Quiz from "./pages/Quiz";
 
 export default function App() {
@@ -32,6 +34,8 @@ export default function App() {
         <Route path="/planner" element={<Planner />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/career-builder" element={<CareerBuilder />} />
+        <Route path="/create-career-builder" element={<CreateCareerBuilder />} />
+        <Route path="/about-us" element={<AboutUs />} />
         <Route path="/quiz" element={<Quiz />} />
       </Routes>
     </BrowserRouter>

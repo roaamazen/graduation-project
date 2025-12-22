@@ -182,7 +182,7 @@ export default function ForgotPassword() {
           <span className="text-[#2C3E3F] text-2xl font-semibold ml-2">Mentora</span>
         </div>
 
-        <div className="bg-white border border-[#A4C3B2] shadow-xl rounded-2xl p-8">
+        <div className="bg-white border-2 border-[#A4C3B2] shadow-xl rounded-2xl p-8">
           <h2 className="text-[#2C3E3F] text-3xl mb-2 text-center">Reset Password</h2>
           <p className="text-[#6B9080] text-center mb-6">
             Enter your email to receive an OTP and set a new password
@@ -350,12 +350,6 @@ export default function ForgotPassword() {
         <div className="absolute bottom-20 right-10 w-32 h-32 bg-[#6B9080]/30 rounded-full blur-xl" />
       </div>
       
-      <div className="absolute bottom-4 right-4 bg-white/90 p-3 rounded-lg shadow text-xs text-[#6B9080] max-w-xs">
-        <p className="font-semibold mb-1">📝 Demo Instructions:</p>
-        <p>• Try: test@example.com or user@mentora.com</p>
-        <p>• Demo OTP: 123456</p>
-        <p>• Password: min 8 characters</p>
-      </div>
     </div>
   );
 }

@@ -21,27 +21,27 @@ import {
   RotateCcw, // أيقونة إعادة تعيين
   Award, // أيقونة جائزة
   TrendingUp, // أيقونة اتجاه تصاعدي
-  BookOpenCheck, // أيقونة كتاب مفتوح مع تحقق
-  Flame, // أيقونة لهب
-  User as UserIcon, // أيقونة مستخدم
-  Save, // أيقونة حفظ
-  LayoutDashboard, // أيقونة لوحة تحكم
-} from 'lucide-react'; // مكتبة الأيقونات
+  BookOpenCheck, // أيقونة كتاب مف
+  Flame, 
+  User as UserIcon, 
+  Save, 
+  LayoutDashboard, 
+} from 'lucide-react'; 
 
 // المكون الرئيسي للتطبيق
 export default function StudyPlanner() {
-  const navigate = useNavigate(); // وظيفة التنقل
-  const { user, setUser } = useUser(); // استخدام السياق العام للمستخدم
+  const navigate = useNavigate(); 
+  const { user, setUser } = useUser(); 
 
-  // ألوان الثيم (التصميم)
+  // ألوان الثيم 
   const M = {
-    primary: '#6B9080', // اللون الأساسي
-    secondary: '#A4C3B2', // اللون الثانوي
-    bg1: '#F6FFF8', // خلفية 1
-    bg2: '#EAF4F4', // خلفية 2
-    bg3: '#E8F3E8', // خلفية 3
-    text: '#2C3E3F', // لون النص
-    muted: '#5A7A6B', // لون النص الخافت
+    primary: '#6B9080', 
+    secondary: '#A4C3B2', 
+    bg1: '#F6FFF8',
+    bg2: '#EAF4F4', 
+    bg3: '#E8F3E8', 
+    text: '#2C3E3F',
+    muted: '#5A7A6B', 
   };
 
   const [isLoggedIn, setIsLoggedIn] = useState(true); // هل المستخدم مسجل دخول؟
@@ -222,42 +222,23 @@ export default function StudyPlanner() {
     percentage: Math.round((attendanceRecords.filter(r => r.status === 'present').length / attendanceRecords.length) * 100) || 0,
   };
 
-  // Components
-  const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
-      <div className="flex justify-around items-center py-3">
-        <button onClick={() => setCurrentView('home')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all ${currentView === 'home' ? 'text-[#6B9080]' : 'text-[#5A7A6B]'}`}>
-          <HomeIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Home</span>
-        </button>
 
-        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all ${currentView === 'dashboard' ? 'text-[#6B9080]' : 'text-[#5A7A6B]'}`}>
-          <LayoutDashboard className="w-6 h-6" />
-          <span className="text-xs font-medium">Dashboard</span>
-        </button>
-
-        <button onClick={() => setCurrentView('profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all ${currentView === 'profile' ? 'text-[#6B9080]' : 'text-[#5A7A6B]'}`}>
-          <UserIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Profile</span>
-        </button>
-      </div>
-    </div>
-  );
 
   const Header = () => (
     <header className="px-6 py-4 flex items-center justify-between shadow-lg"
       style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
           <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
         </div>
         <span className="text-white text-xl font-bold">Mentora</span>
       </div>
 
       <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Study Planner</button>
-        <button onClick={() => navigate('/profile')} className="text-white hover:underline">
+        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Study Planner</button>
+        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Career Builder</button>
+        <button onClick={() => navigate('/dashboard')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Dashboard</button>
+        <button onClick={() => navigate('/profile')} className="text-white hover:bg-white/20 transition-all duration-300 p-2 rounded-lg">
           <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
         </button>
       </nav>
@@ -323,7 +304,6 @@ export default function StudyPlanner() {
             </div>
           </section>
         </main>
-        <BottomNav />
       </div>
     );
   }
@@ -426,7 +406,6 @@ export default function StudyPlanner() {
             </div>
           </div>
         </main>
-        <BottomNav />
       </div>
     );
   }
@@ -503,10 +482,11 @@ export default function StudyPlanner() {
             )}
           </div>
         </main>
-        <BottomNav />
       </div>
     );
   }
+
+
 
   // TIMER VIEW
   if (currentView === 'timer') {
@@ -611,7 +591,6 @@ export default function StudyPlanner() {
             </div>
           </div>
         </main>
-        <BottomNav />
       </div>
     );
   }

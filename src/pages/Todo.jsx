@@ -28,43 +28,23 @@ export default function Todo() {
 
   // To-Do state
   const [todos, setTodos] = useState([
-    { id: 1, text: 'Complete Math Assignment', completed: false },
-    { id: 2, text: 'Read Chapter 5 - Physics', completed: true },
-    { id: 3, text: 'Prepare for Chemistry test', completed: false },
+    { id: 1, text: 'Complete web Assignment', completed: false },
+    { id: 2, text: 'Read Chapter 5 - java', completed: true },
+    { id: 3, text: 'exam database', completed: false },
   ]);
   const [newTodo, setNewTodo] = useState('');
   const [todoFilter, setTodoFilter] = useState('all');
 
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  // Bottom Navigation Component
-  const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
-      <div className="flex justify-around items-center py-3">
-        <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <HomeIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Home</span>
-        </button>
 
-        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#6B9080]`}>
-          <LayoutDashboard className="w-6 h-6" />
-          <span className="text-xs font-medium">Dashboard</span>
-        </button>
-
-        <button onClick={() => navigate('/profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <UserIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Profile</span>
-        </button>
-      </div>
-    </div>
-  );
 
   // Header Component
   const Header = () => (
     <header className="px-6 py-4 flex items-center justify-between shadow-lg"
       style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
           <CheckSquare className="w-6 h-6" style={{ color: M.primary }} />
         </div>
         <span className="text-white text-xl font-bold">Mentora - Todo</span>
@@ -170,7 +150,6 @@ export default function Todo() {
           )}
         </div>
       </main>
-      <BottomNav />
     </div>
   );
 }

@@ -1,22 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 import {
-  Briefcase,
-  Target,
-  TrendingUp,
   BookOpen,
-  Users,
-  Award,
-  ChevronRight,
   Home as HomeIcon,
-  LayoutDashboard,
   User as UserIcon,
+  LayoutDashboard,
+  Lightbulb,
+  ListChecks,
+  FileText as FileTextIcon,
+  ExternalLink,
 } from 'lucide-react';
 
 export default function CareerBuilder() {
   const navigate = useNavigate();
+  const { user } = useUser();
 
-  // Theme colors
   const M = {
     primary: '#6B9080',
     secondary: '#A4C3B2',
@@ -27,113 +26,28 @@ export default function CareerBuilder() {
     muted: '#5A7A6B',
   };
 
-  const [currentStep, setCurrentStep] = useState(0);
-  const [careerData, setCareerData] = useState({
-    interests: [],
-    skills: [],
-    goals: '',
-    experience: '',
-    industry: '',
-  });
+  /* ================= COMPONENTS ================= */
 
-  const steps = [
-    {
-      title: 'Career Interests',
-      description: 'What fields interest you?',
-      options: [
-        'Technology & Software',
-        'Healthcare & Medicine',
-        'Business & Finance',
-        'Education & Teaching',
-        'Creative Arts & Design',
-        'Engineering & Manufacturing',
-        'Science & Research',
-        'Marketing & Communications'
-      ]
-    },
-    {
-      title: 'Skills Assessment',
-      description: 'What skills do you have?',
-      options: [
-        'Programming & Coding',
-        'Data Analysis',
-        'Project Management',
-        'Communication',
-        'Leadership',
-        'Problem Solving',
-        'Creativity',
-        'Technical Writing'
-      ]
-    },
-    {
-      title: 'Career Goals',
-      description: 'What are your career aspirations?',
-      type: 'textarea',
-      placeholder: 'Describe your short-term and long-term career goals...'
-    },
-    {
-      title: 'Experience Level',
-      description: 'How much experience do you have?',
-      options: [
-        'Entry Level (0-2 years)',
-        'Mid Level (3-5 years)',
-        'Senior Level (6-10 years)',
-        'Executive Level (10+ years)'
-      ]
-    },
-    {
-      title: 'Industry Preference',
-      description: 'Which industry appeals to you most?',
-      options: [
-        'Technology',
-        'Healthcare',
-        'Finance',
-        'Education',
-        'Manufacturing',
-        'Retail',
-        'Government',
-        'Non-profit'
-      ]
-    }
-  ];
+  const Header = () => (
+    <header className="px-6 py-4 flex items-center justify-between shadow-lg"
+      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
+          <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
+        </div>
+        <span className="text-white text-xl font-bold">Mentora</span>
+      </div>
 
-  const handleOptionSelect = (stepIndex, option) => {
-    if (stepIndex === 0) {
-      setCareerData(prev => ({
-        ...prev,
-        interests: prev.interests.includes(option)
-          ? prev.interests.filter(i => i !== option)
-          : [...prev.interests, option]
-      }));
-    } else if (stepIndex === 1) {
-      setCareerData(prev => ({
-        ...prev,
-        skills: prev.skills.includes(option)
-          ? prev.skills.filter(s => s !== option)
-          : [...prev.skills, option]
-      }));
-    } else if (stepIndex === 3) {
-      setCareerData(prev => ({ ...prev, experience: option }));
-    } else if (stepIndex === 4) {
-      setCareerData(prev => ({ ...prev, industry: option }));
-    }
-  };
-
-  const handleTextInput = (value) => {
-    setCareerData(prev => ({ ...prev, goals: value }));
-  };
-
-  const nextStep = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
-    }
-  };
-
-  const prevStep = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
-  };
+      <nav className="flex items-center gap-4">
+        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Study Planner</button>
+        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Career Builder</button>
+        <button onClick={() => navigate('/dashboard')} className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block">Dashboard</button>
+        <button onClick={() => navigate('/profile')} className="text-white hover:bg-white/20 transition-all duration-300 p-2 rounded-lg">
+          <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
+        </button>
+      </nav>
+    </header>
+  );
 
   const BottomNav = () => (
     <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
@@ -141,6 +55,11 @@ export default function CareerBuilder() {
         <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
           <HomeIcon className="w-6 h-6" />
           <span className="text-xs font-medium">Home</span>
+        </button>
+
+        <button onClick={() => navigate('/career-builder')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
+          <BookOpen className="w-6 h-6" />
+          <span className="text-xs font-medium">Career</span>
         </button>
 
         <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
@@ -156,129 +75,143 @@ export default function CareerBuilder() {
     </div>
   );
 
-  const Header = () => (
-    <header className="px-6 py-4 flex items-center justify-between shadow-lg"
-      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-          <Briefcase className="w-6 h-6" style={{ color: M.primary }} />
-        </div>
-        <span className="text-white text-xl font-bold">Mentora</span>
-      </div>
-
-      <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/')} className="text-white font-medium hover:underline hidden md:block">Home</button>
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
-        <button onClick={() => navigate('/profile')} className="text-white font-medium hover:underline hidden md:block flex items-center gap-1">
-          <UserIcon className="w-4 h-4" />
-          Profile
-        </button>
-      </nav>
-    </header>
-  );
-
-  const currentStepData = steps[currentStep];
+  /* ================= MAIN VIEW ================= */
 
   return (
     <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24">
       <Header />
       <main className="container mx-auto px-4 mt-6">
-        <div className="bg-white rounded-3xl p-6 shadow-lg border mb-6" style={{ borderColor: M.bg3 }}>
-          <h1 className="text-3xl font-bold text-[#2C3E3F] mb-2 flex items-center gap-3">
-            <Briefcase className="w-8 h-8" style={{ color: M.primary }} />
-            Career Builder
-          </h1>
-          <p className="text-[#5A7A6B]">Build your career path with personalized guidance</p>
+        {/* Welcome Section with Button */}
+        <div className="bg-white rounded-3xl p-8 shadow-lg border mb-6 text-center" style={{ borderColor: M.bg3 }}>
+          <h1 className="text-3xl font-bold mb-4" style={{ color: M.text }}>Welcome to Career Builder</h1>
+          <p className="text-lg mb-6" style={{ color: M.muted }}>
+            Start your career journey with our comprehensive assessment and resources
+          </p>
+          <button
+            onClick={() => navigate('/create-career-builder')}
+            className="px-8 py-4 rounded-lg text-white font-medium hover:shadow-lg transition-all text-lg"
+            style={{ background: M.primary }}
+          >
+            Start Career Assessment
+          </button>
         </div>
 
-        <div className="bg-white rounded-2xl p-6 shadow-lg border" style={{ borderColor: M.bg3 }}>
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-xl font-bold text-[#2C3E3F]">{currentStepData.title}</h2>
-              <p className="text-[#5A7A6B]">{currentStepData.description}</p>
+        {/* Career Resources Section */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          {/* Career Writing Tips */}
+          <div className="bg-white rounded-3xl p-6 shadow-lg border" style={{ borderColor: M.bg3 }}>
+            <div className="flex items-center gap-3 mb-4">
+              <Lightbulb className="w-6 h-6" style={{ color: M.primary }} />
+              <h3 className="text-xl font-bold" style={{ color: M.text }}>Career Writing Tips</h3>
             </div>
-            <span className="text-sm text-[#5A7A6B]">
-              Step {currentStep + 1} of {steps.length}
-            </span>
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Tailor your resume for each job application
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Use action verbs to describe your achievements
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Quantify your accomplishments with numbers
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Keep your resume to one page for entry-level positions
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Include relevant keywords from the job description
+              </li>
+            </ul>
           </div>
 
-          <div className="w-full bg-gray-200 rounded-full h-2 mb-6">
-            <div
-              className="h-2 rounded-full transition-all"
-              style={{ width: `${((currentStep + 1) / steps.length) * 100}%`, background: M.primary }}
-            ></div>
+          {/* Career Checklist */}
+          <div className="bg-white rounded-3xl p-6 shadow-lg border" style={{ borderColor: M.bg3 }}>
+            <div className="flex items-center gap-3 mb-4">
+              <ListChecks className="w-6 h-6" style={{ color: M.primary }} />
+              <h3 className="text-xl font-bold" style={{ color: M.text }}>Career Checklist</h3>
+            </div>
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Complete your professional profile on LinkedIn
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Build a portfolio website or GitHub repository
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Network with professionals in your field
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Take relevant online courses or certifications
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Gain practical experience through projects or volunteering
+              </li>
+            </ul>
           </div>
 
-          {currentStepData.type === 'textarea' ? (
-            <textarea
-              value={careerData.goals}
-              onChange={(e) => handleTextInput(e.target.value)}
-              placeholder={currentStepData.placeholder}
-              rows={6}
-              className="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#6B9080] resize-none"
-              style={{ borderColor: M.bg3 }}
-            />
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {currentStepData.options.map((option, index) => {
-                const isSelected = currentStep === 0
-                  ? careerData.interests.includes(option)
-                  : currentStep === 1
-                  ? careerData.skills.includes(option)
-                  : currentStep === 3
-                  ? careerData.experience === option
-                  : careerData.industry === option;
-
-                return (
-                  <button
-                    key={index}
-                    onClick={() => handleOptionSelect(currentStep, option)}
-                    className={`p-4 rounded-lg border text-left transition-all hover:shadow-md ${
-                      isSelected ? 'border-[#6B9080] bg-[#F6FFF8]' : 'border-gray-200 hover:border-[#6B9080]'
-                    }`}
-                  >
-                    <span className={`font-medium ${isSelected ? 'text-[#6B9080]' : 'text-[#2C3E3F]'}`}>
-                      {option}
-                    </span>
-                  </button>
-                );
-              })}
+          {/* Cover Letter Guidance */}
+          <div className="bg-white rounded-3xl p-6 shadow-lg border" style={{ borderColor: M.bg3 }}>
+            <div className="flex items-center gap-3 mb-4">
+              <FileTextIcon className="w-6 h-6" style={{ color: M.primary }} />
+              <h3 className="text-xl font-bold" style={{ color: M.text }}>Cover Letter Guidance</h3>
             </div>
-          )}
+            <ul className="space-y-2">
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Address the hiring manager by name when possible
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Explain why you're interested in the specific company
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Highlight relevant experience and achievements
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Show how your skills match the job requirements
+              </li>
+              <li className="flex items-start gap-2 text-sm" style={{ color: M.muted }}>
+                <div className="w-2 h-2 rounded-full mt-2 flex-shrink-0" style={{ background: M.primary }} />
+                Keep it to 3-4 paragraphs
+              </li>
+            </ul>
+          </div>
 
-          <div className="flex justify-between items-center mt-8">
-            <button
-              onClick={prevStep}
-              disabled={currentStep === 0}
-              className={`px-6 py-3 rounded-lg font-medium transition-all ${
-                currentStep === 0
-                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                  : 'text-white hover:shadow-lg'
-              }`}
-              style={currentStep === 0 ? {} : { background: M.secondary }}
-            >
-              Previous
-            </button>
-
-            {currentStep === steps.length - 1 ? (
-              <button
-                onClick={() => alert('Career plan generated! Check your dashboard for recommendations.')}
-                className="px-8 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all flex items-center gap-2"
-                style={{ background: M.primary }}
-              >
-                Generate Career Plan
-                <Award className="w-4 h-4" />
-              </button>
-            ) : (
-              <button
-                onClick={nextStep}
-                className="px-6 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all flex items-center gap-2"
-                style={{ background: M.primary }}
-              >
-                Next
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            )}
+          {/* Career Resources */}
+          <div className="bg-white rounded-3xl p-6 shadow-lg border" style={{ borderColor: M.bg3 }}>
+            <div className="flex items-center gap-3 mb-4">
+              <ExternalLink className="w-6 h-6" style={{ color: M.primary }} />
+              <h3 className="text-xl font-bold" style={{ color: M.text }}>Career Resources</h3>
+            </div>
+            <div className="grid grid-cols-1 gap-3">
+              <a href="https://www.linkedin.com/learning" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2 rounded-lg border hover:shadow-md transition-all" style={{ borderColor: M.bg3, color: M.text }}>
+                <ExternalLink className="w-4 h-4" style={{ color: M.primary }} />
+                <span className="font-medium text-sm">LinkedIn Learning</span>
+              </a>
+              <a href="https://www.coursera.org" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2 rounded-lg border hover:shadow-md transition-all" style={{ borderColor: M.bg3, color: M.text }}>
+                <ExternalLink className="w-4 h-4" style={{ color: M.primary }} />
+                <span className="font-medium text-sm">Coursera</span>
+              </a>
+              <a href="https://www.udemy.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2 rounded-lg border hover:shadow-md transition-all" style={{ borderColor: M.bg3, color: M.text }}>
+                <ExternalLink className="w-4 h-4" style={{ color: M.primary }} />
+                <span className="font-medium text-sm">Udemy</span>
+              </a>
+              <a href="https://www.glassdoor.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-2 rounded-lg border hover:shadow-md transition-all" style={{ borderColor: M.bg3, color: M.text }}>
+                <ExternalLink className="w-4 h-4" style={{ color: M.primary }} />
+                <span className="font-medium text-sm">Glassdoor</span>
+              </a>
+            </div>
           </div>
         </div>
       </main>

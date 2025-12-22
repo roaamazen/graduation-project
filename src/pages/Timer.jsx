@@ -66,7 +66,7 @@ export default function Timer() {
     <header className="px-6 py-4 flex items-center justify-between shadow-lg"
       style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
+        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
           <Clock className="w-6 h-6" style={{ color: M.primary }} />
         </div>
         <span className="text-white text-xl font-bold">Mentora - Timer</span>

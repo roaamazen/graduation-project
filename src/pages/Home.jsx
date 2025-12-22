@@ -20,10 +20,15 @@ function Hero() {
         </div>
         <div className="flex items-center gap-4">
           <Link
-          to="/study-planner"
+          to="/about-us"
+          className="border-2 border-[#6B9080] text-[#6B9080] hover:bg-[#6B9080] hover:text-white px-6 py-3 shadow-lg rounded-full text-sm transition-all">
+            About Us
+          </Link>
+          <Link
+          to="/Login"
           className="bg-[#6B9080] hover:bg-[#5A7A6B] text-white px-6 py-3 shadow-lg rounded-full text-sm transition-all">
             Login  </Link>
-        
+
         </div>
       </nav>
 
