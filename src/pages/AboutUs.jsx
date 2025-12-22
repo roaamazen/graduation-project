@@ -59,6 +59,27 @@ export default function AboutUs() {
     </header>
   );
 
+  const BottomNav = () => (
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
+      <div className="flex justify-around items-center py-3">
+        <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
+          <HomeIcon className="w-6 h-6" />
+          <span className="text-xs font-medium">Home</span>
+        </button>
+
+        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#6B9080]`}>
+          <LayoutDashboard className="w-6 h-6" />
+          <span className="text-xs font-medium">Dashboard</span>
+        </button>
+
+        <button onClick={() => navigate('/profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
+          <UserIcon className="w-6 h-6" />
+          <span className="text-xs font-medium">Profile</span>
+        </button>
+      </div>
+    </div>
+  );
+
 
 
   return (
@@ -249,7 +270,7 @@ export default function AboutUs() {
                 "Mentora completely transformed my study habits. The Pomodoro timer and personalized study plans helped me improve my grades significantly!"
               </p>
               <div className="flex items-center gap-3">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah" alt="Sarah" className="w-10 h-10 rounded-full" />
+                <img src="https://i.pinimg.com/1200x/4b/2f/03/4b2f03f83ee3b468c599d8b1662f6df1.jpg" alt="Sarah" className="w-10 h-10 rounded-full" />
                 <div>
                   <p className="font-semibold" style={{ color: M.text }}>Sarah Johnson</p>
                   <p className="text-sm" style={{ color: M.muted }}>Computer Science Student</p>
@@ -267,9 +288,9 @@ export default function AboutUs() {
                 "The career assessment helped me discover my true passion. Now I'm pursuing a career in data science and loving every moment!"
               </p>
               <div className="flex items-center gap-3">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Mike" alt="Mike" className="w-10 h-10 rounded-full" />
+                <img src="https://i.pinimg.com/736x/17/d5/2f/17d52f442053514ba3c60c40e927b88b.jpg" alt="Mike" className="w-10 h-10 rounded-full" />
                 <div>
-                  <p className="font-semibold" style={{ color: M.text }}>Mike Chen</p>
+                  <p className="font-semibold" style={{ color: M.text }}>Roa'a Badran</p>
                   <p className="text-sm" style={{ color: M.muted }}>Recent Graduate</p>
                 </div>
               </div>

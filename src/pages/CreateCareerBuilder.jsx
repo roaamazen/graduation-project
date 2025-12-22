@@ -187,6 +187,13 @@ export default function CreateCareerBuilder() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
+  const [hasAttempted, setHasAttempted] = useState(false);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [generationError, setGenerationError] = useState(null);
+  const [lastAttempted, setLastAttempted] = useState(null);
+  const [status, setStatus] = useState('Draft');
+  const [hasCompletedAssessment, setHasCompletedAssessment] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
 
   const updateAnswer = (questionId, value) => {
     setAnswers(prev => ({ ...prev, [questionId]: value }));
@@ -198,6 +205,8 @@ export default function CreateCareerBuilder() {
         setCurrentStep(currentStep + 1);
       } else {
         setShowResult(true);
+        setHasCompletedAssessment(true);
+        setStatus('Completed');
       }
     }
   };
@@ -212,6 +221,32 @@ export default function CreateCareerBuilder() {
     setAnswers({});
     setCurrentStep(0);
     setShowResult(false);
+    setHasCompletedAssessment(false);
+    setStatus('Draft');
+  };
+
+  const handleAttempt = () => {
+    setHasAttempted(true);
+    setLastAttempted(new Date().toLocaleString());
+    setStatus('Draft');
+  };
+
+  const handleSubmitGenerate = async () => {
+    if (!hasCompletedAssessment) return;
+
+    setIsGenerating(true);
+    setGenerationError(null);
+
+    try {
+      // Simulate AI generation
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      // Assume success for demo
+      navigate('/career-plan');
+    } catch (error) {
+      setGenerationError('Failed to generate career plan. Please try again.');
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   const Header = () => (
@@ -336,14 +371,73 @@ export default function CreateCareerBuilder() {
               </div>
             </div>
 
-            <div className="flex justify-center mt-8">
+            <div className="flex justify-center gap-4 mt-8">
+              <button
+                onClick={handleSubmitGenerate}
+                disabled={!hasCompletedAssessment || isGenerating}
+                className={`px-6 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all ${
+                  !hasCompletedAssessment || isGenerating ? 'bg-gray-300 cursor-not-allowed' : ''
+                }`}
+                style={{ background: hasCompletedAssessment && !isGenerating ? M.primary : undefined }}
+              >
+                {isGenerating ? 'Generating...' : 'Generate Career Plan'}
+              </button>
               <button
                 onClick={resetForm}
                 className="px-6 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all"
-                style={{ background: M.primary }}
+                style={{ background: M.secondary }}
               >
                 Retake Assessment
               </button>
+            </div>
+            {generationError && (
+              <p className="text-red-500 text-center mt-4">{generationError}</p>
+            )}
+          </div>
+        </main>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  if (!showQuiz) {
+    return (
+      <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24">
+        <Header />
+        <main className="container mx-auto px-4 mt-6">
+          <div className="bg-white rounded-3xl p-8 shadow-lg border text-center" style={{ borderColor: M.bg3 }}>
+            <h1 className="text-3xl font-bold mb-4" style={{ color: M.text }}>Career Assessment</h1>
+            <p className="text-lg mb-6" style={{ color: M.muted }}>
+              Take our comprehensive career assessment to discover your ideal career path and get personalized recommendations.
+            </p>
+            <button
+              onClick={() => setShowQuiz(true)}
+              className="px-8 py-4 rounded-lg text-white font-medium hover:shadow-lg transition-all text-lg mb-6"
+              style={{ background: M.primary }}
+            >
+              Start Career Quiz
+            </button>
+
+            {/* Status and Last Attempted Info */}
+            <div className="flex flex-col items-center gap-3">
+              <span className={`px-4 py-2 rounded-full text-sm font-medium ${
+                status === 'Draft' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
+              }`}>
+                {status === 'Draft' ? 'Draft' : 'Completed'}
+              </span>
+              {lastAttempted && (
+                <p className="text-sm" style={{ color: M.muted }}>
+                  Last attempted: {new Date(lastAttempted).toLocaleDateString('en-GB', {
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric'
+                  })} – {new Date(lastAttempted).toLocaleTimeString('en-US', {
+                    hour: 'numeric',
+                    minute: '2-digit',
+                    hour12: true
+                  })}
+                </p>
+              )}
             </div>
           </div>
         </main>
@@ -362,9 +456,18 @@ export default function CreateCareerBuilder() {
           <div className="mb-6">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl font-bold" style={{ color: M.text }}>Career Assessment</h2>
-              <span className="text-sm" style={{ color: M.muted }}>
-                Question {currentStep + 1} of {questions.length}
-              </span>
+              <div className="flex items-center gap-4">
+                <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                  status === 'Draft' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
+                }`}>
+                  {status}
+                </span>
+                {lastAttempted && (
+                  <span className="text-sm" style={{ color: M.muted }}>
+                    Last attempted: {lastAttempted}
+                  </span>
+                )}
+              </div>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
               <div

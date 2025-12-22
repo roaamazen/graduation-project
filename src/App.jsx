@@ -14,6 +14,9 @@ import Planner from "./pages/Planner";
 import Attendance from "./pages/Attendance";
 import CareerBuilder from "./pages/CareerBuilder";
 import CreateCareerBuilder from "./pages/CreateCareerBuilder";
+import CareerPlan from "./pages/CareerPlan";
+import CareerProgress from "./pages/CareerProgress";
+import CareerSkills from "./pages/CareerSkills";
 import AboutUs from "./pages/AboutUs";
 import Quiz from "./pages/Quiz";
 
@@ -35,6 +38,9 @@ export default function App() {
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/career-builder" element={<CareerBuilder />} />
         <Route path="/create-career-builder" element={<CreateCareerBuilder />} />
+        <Route path="/career-plan" element={<CareerPlan />} />
+        <Route path="/career-progress" element={<CareerProgress />} />
+        <Route path="/career-skills" element={<CareerSkills />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/quiz" element={<Quiz />} />
       </Routes>

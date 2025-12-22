@@ -10,6 +10,10 @@ import {
   ListChecks,
   FileText as FileTextIcon,
   ExternalLink,
+  HelpCircle,
+  TrendingUp,
+  Award,
+  BarChart3,
 } from 'lucide-react';
 
 export default function CareerBuilder() {
@@ -81,19 +85,31 @@ export default function CareerBuilder() {
     <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24">
       <Header />
       <main className="container mx-auto px-4 mt-6">
-        {/* Welcome Section with Button */}
-        <div className="bg-white rounded-3xl p-8 shadow-lg border mb-6 text-center" style={{ borderColor: M.bg3 }}>
-          <h1 className="text-3xl font-bold mb-4" style={{ color: M.text }}>Welcome to Career Builder</h1>
-          <p className="text-lg mb-6" style={{ color: M.muted }}>
-            Start your career journey with our comprehensive assessment and resources
-          </p>
-          <button
-            onClick={() => navigate('/create-career-builder')}
-            className="px-8 py-4 rounded-lg text-white font-medium hover:shadow-lg transition-all text-lg"
-            style={{ background: M.primary }}
-          >
-            Start Career Assessment
-          </button>
+        {/* Career Tools Section */}
+        <div className="bg-white rounded-3xl p-6 shadow-lg border mb-6" style={{ borderColor: M.bg3 }}>
+          <h2 className="text-xl font-bold mb-4" style={{ color: M.text }}>Career Tools</h2>
+          <div className="grid grid-cols-2 gap-4">
+            <button onClick={() => navigate('/create-career-builder')} className="flex flex-col items-center gap-2 p-4 rounded-2xl border hover:shadow-md hover:scale-105 transition-all" style={{ borderColor: M.bg3 }}>
+              <HelpCircle className="w-8 h-8" style={{ color: M.primary }} />
+              <span className="text-sm font-medium">Career Quiz</span>
+              <span className="text-xs text-[#5A7A6B]">Assessment</span>
+            </button>
+            <button onClick={() => navigate('/career-plan')} className="flex flex-col items-center gap-2 p-4 rounded-2xl border hover:shadow-md hover:scale-105 transition-all" style={{ borderColor: M.bg3 }}>
+              <FileTextIcon className="w-8 h-8" style={{ color: M.primary }} />
+              <span className="text-sm font-medium">Career Plan</span>
+              <span className="text-xs text-[#5A7A6B]">AI Generated</span>
+            </button>
+            <button onClick={() => navigate('/career-progress')} className="flex flex-col items-center gap-2 p-4 rounded-2xl border hover:shadow-md hover:scale-105 transition-all" style={{ borderColor: M.bg3 }}>
+              <TrendingUp className="w-8 h-8" style={{ color: M.primary }} />
+              <span className="text-sm font-medium">Career Progress</span>
+              <span className="text-xs text-[#5A7A6B]">Track Goals</span>
+            </button>
+            <button onClick={() => navigate('/career-skills')} className="flex flex-col items-center gap-2 p-4 rounded-2xl border hover:shadow-md hover:scale-105 transition-all" style={{ borderColor: M.bg3 }}>
+              <BarChart3 className="w-8 h-8" style={{ color: M.primary }} />
+              <span className="text-sm font-medium">Skills Snapshot</span>
+              <span className="text-xs text-[#5A7A6B]">Analysis</span>
+            </button>
+          </div>
         </div>
 
         {/* Career Resources Section */}
