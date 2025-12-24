@@ -3,11 +3,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import StudyPlanner from "./pages/StudyPlanner";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard.jsx";
+import Dashboard from "./pages/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
-import Profile from "./pages/profile";
+import Profile from "./pages/Profile";
 import Home from "./pages/Home";
-import Todo from "./pages/ToDo";
+import Todo from "./pages/Todo";
 import Timer from "./pages/Timer";
 import Notes from "./pages/Notes";
 import Planner from "./pages/Planner";
@@ -24,7 +24,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home/>} />     {/* الصفحة الرئيسية */}
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/study-planner" element={<StudyPlanner />} />

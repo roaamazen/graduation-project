@@ -8,9 +8,6 @@ import {
   RotateCcw,
   ChevronRight,
   ChevronLeft,
-  Home as HomeIcon,
-  User as UserIcon,
-  LayoutDashboard,
 } from 'lucide-react';
 
 export default function StudyPlannerAssessment() {
@@ -53,161 +50,140 @@ export default function StudyPlannerAssessment() {
   const quizQuestions = [
     {
       question: "What are your top 3 academic or learning goals for the next 30–90 days?",
-      options: [
-        "Improve grades in specific subjects",
-        "Master new skills for career development",
-        "Prepare for upcoming exams/certifications",
-        "Develop better study habits",
-        "Balance academics with personal life",
-        "Build confidence in learning abilities"
-      ]
+      type: "open-ended",
+      options: []
     },
     {
       question: "Which subject or skill do you want to improve the most, and why?",
-      options: [
-        "Mathematics - foundation for many fields",
-        "Programming/Computer Science - high demand career",
-        "Languages - communication and cultural understanding",
-        "Science subjects - understanding the world",
-        "Writing/Communication - essential skill",
-        "Business/Management - career advancement"
-      ]
+      type: "open-ended",
+      options: []
     },
     {
       question: "How many hours per day can you realistically study?",
+      type: "single-choice",
       options: [
-        "1-2 hours per day",
-        "2-3 hours per day",
-        "3-4 hours per day",
-        "4-5 hours per day",
-        "5-6 hours per day",
-        "More than 6 hours per day"
+        "Less than 1 hour",
+        "1–2 hours",
+        "2–3 hours",
+        "3–4 hours",
+        "More than 4 hours"
       ]
     },
     {
       question: "At what times of day do you feel most productive?",
+      type: "multiple-choice",
       options: [
-        "Early morning (5-9 AM)",
-        "Late morning (9 AM-12 PM)",
-        "Afternoon (12-5 PM)",
-        "Evening (5-9 PM)",
-        "Night (9 PM-12 AM)",
-        "Late night (12 AM-5 AM)"
+        "Early morning (5–9 AM)",
+        "Late morning (9–12 PM)",
+        "Afternoon (12–5 PM)",
+        "Evening (5–9 PM)",
+        "Night (9 PM–1 AM)"
       ]
     },
     {
-      question: "Which days of the week are fully or partially available for studying?",
+      question: "Which days of the week are available for studying?",
+      type: "multiple-choice",
       options: [
-        "Weekdays only (Mon-Fri)",
-        "Weekends only (Sat-Sun)",
-        "Every day including weekends",
-        "3-4 days per week",
-        "Only 1-2 days per week",
-        "Flexible based on schedule"
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
       ]
     },
     {
-      question: "How do you usually plan your study sessions (if at all)?",
+      question: "How do you usually plan your study sessions?",
+      type: "single-choice",
       options: [
-        "Detailed weekly schedule with specific times",
-        "Daily to-do lists without fixed times",
-        "Flexible planning based on energy levels",
-        "No formal planning, study when I feel like it",
-        "Use apps/tools for planning and tracking",
-        "Plan but often change based on circumstances"
+        "I don't plan; I study when I feel like it",
+        "Rough plan in my head",
+        "To-do list or notes app",
+        "Calendar or time-blocking",
+        "Strict daily schedule"
       ]
     },
     {
       question: "How do you usually start a study session?",
+      type: "single-choice",
       options: [
-        "Review previous material first",
-        "Start with the easiest topics",
-        "Jump into the most important/difficult topics",
-        "Quick planning of what to cover",
-        "Meditation or focus exercises",
-        "Just dive in without preparation"
+        "Start immediately",
+        "Delay a little, then start",
+        "Get distracted (phone/social media)",
+        "Wait until I 'feel motivated'",
+        "Avoid starting unless there's pressure"
       ]
     },
     {
       question: "How long can you stay focused before needing a break?",
+      type: "single-choice",
       options: [
-        "15-25 minutes",
-        "25-45 minutes",
-        "45-60 minutes",
-        "60-90 minutes",
-        "90-120 minutes",
-        "More than 2 hours"
+        "Less than 15 minutes",
+        "15–30 minutes",
+        "30–45 minutes",
+        "45–60 minutes",
+        "More than 60 minutes"
       ]
     },
     {
       question: "What are the main things that distract you while studying?",
+      type: "multiple-choice",
       options: [
-        "Phone notifications and social media",
-        "External noise and conversations",
-        "Family members or roommates",
-        "Feeling tired or sleepy",
-        "Thinking about other tasks",
-        "Lack of interest in the material"
+        "Phone / social media",
+        "Noise or environment",
+        "Boredom",
+        "Stress or anxiety",
+        "Fatigue",
+        "Overthinking / perfectionism"
       ]
     },
     {
       question: "Which subjects or topics do you struggle with the most, and why?",
-      options: [
-        "Mathematics - abstract concepts",
-        "Science - complex theories and formulas",
-        "Languages - memorization and grammar",
-        "Writing - organization and structure",
-        "Programming - logical thinking and debugging",
-        "Time management and study planning"
-      ]
+      type: "open-ended",
+      options: []
     },
     {
-      question: "Do you struggle more with remembering information, understanding concepts, or applying what you learn?",
+      question: "What do you struggle with the most?",
+      type: "single-choice",
       options: [
-        "Remembering information - memorization",
-        "Understanding concepts - comprehension",
-        "Applying what I learn - practical use",
-        "All three equally",
-        "Understanding and applying",
-        "Remembering and understanding"
+        "Remembering information",
+        "Understanding concepts",
+        "Applying what I learn",
+        "All of the above"
       ]
     },
     {
       question: "What is your biggest challenge in studying consistently?",
+      type: "single-choice",
       options: [
-        "Lack of motivation and discipline",
-        "Poor time management skills",
-        "Too many distractions in environment",
-        "Difficulty concentrating for long periods",
-        "Inconsistent sleep and energy levels",
-        "Overwhelming workload and stress"
+        "Procrastination",
+        "Lack of motivation",
+        "Poor time management",
+        "Burnout / low energy",
+        "Stress or anxiety",
+        "Distractions"
       ]
     },
     {
-      question: "Do you have upcoming exams, projects, or deadlines? List the dates.",
-      options: [
-        "Multiple exams within 2 weeks",
-        "Major project due within a month",
-        "Several deadlines this semester",
-        "One big exam/project coming up",
-        "Ongoing assignments with no fixed dates",
-        "No immediate deadlines"
-      ]
+      question: "Do you have upcoming exams, projects, or deadlines?",
+      type: "open-ended",
+      options: []
     },
     {
       question: "How would you describe your study personality?",
+      type: "single-choice",
       options: [
-        "Structured and organized planner",
-        "Flexible and adaptable learner",
-        "Intense and focused studier",
-        "Social and collaborative learner",
-        "Independent and self-motivated",
-        "Creative and visual learner"
+        "Very structured and disciplined",
+        "Semi-organized",
+        "Chaotic but motivated",
+        "Procrastinator",
+        "Only motivated close to exams"
       ]
     }
   ];
 
-
+ 
 
   // Header Component
   const Header = () => (
@@ -221,7 +197,7 @@ export default function StudyPlannerAssessment() {
       </div>
 
       <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
+        
 
         {isLoggedIn ? (
           <button
@@ -418,7 +394,6 @@ export default function StudyPlannerAssessment() {
             ))}
           </div>
         </main>
-        <BottomNav />
       </div>
     );
   }
@@ -534,7 +509,6 @@ export default function StudyPlannerAssessment() {
             </button>
           </div>
         </main>
-        <BottomNav />
       </div>
     );
   }
@@ -570,19 +544,49 @@ export default function StudyPlannerAssessment() {
         <div className="bg-white rounded-2xl p-6 shadow-lg border mb-6" style={{ borderColor: M.bg3 }}>
           <h3 className="text-lg font-semibold text-[#2C3E3F] mb-4">{currentQuestion.question}</h3>
           <div className="space-y-3">
-            {currentQuestion.options.map((option, index) => (
-              <label key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-all" style={{ borderColor: M.bg3 }}>
-                <input
-                  type="radio"
-                  name={`question-${currentQuestionIndex}`}
-                  value={option}
-                  checked={quizAnswers[currentQuestionIndex] === option}
-                  onChange={(e) => setQuizAnswers(prev => ({ ...prev, [currentQuestionIndex]: e.target.value }))}
-                  className="w-4 h-4 text-[#6B9080] focus:ring-[#6B9080]"
-                />
-                <span className="text-[#2C3E3F]">{option}</span>
-              </label>
-            ))}
+            {currentQuestion.type === "open-ended" ? (
+              <textarea
+                placeholder="Type your answer here..."
+                value={quizAnswers[currentQuestionIndex] || ''}
+                onChange={(e) => setQuizAnswers(prev => ({ ...prev, [currentQuestionIndex]: e.target.value }))}
+                rows={4}
+                className="w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 focus:ring-[#6B9080]"
+                style={{ borderColor: M.bg3 }}
+              />
+            ) : currentQuestion.type === "multiple-choice" ? (
+              currentQuestion.options.map((option, index) => (
+                <label key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-all" style={{ borderColor: M.bg3 }}>
+                  <input
+                    type="checkbox"
+                    value={option}
+                    checked={(quizAnswers[currentQuestionIndex] || []).includes(option)}
+                    onChange={(e) => {
+                      const currentAnswers = quizAnswers[currentQuestionIndex] || [];
+                      const newAnswers = e.target.checked
+                        ? [...currentAnswers, option]
+                        : currentAnswers.filter(ans => ans !== option);
+                      setQuizAnswers(prev => ({ ...prev, [currentQuestionIndex]: newAnswers }));
+                    }}
+                    className="w-4 h-4 text-[#6B9080] focus:ring-[#6B9080]"
+                  />
+                  <span className="text-[#2C3E3F]">{option}</span>
+                </label>
+              ))
+            ) : (
+              currentQuestion.options.map((option, index) => (
+                <label key={index} className="flex items-center gap-3 p-3 rounded-lg border hover:bg-gray-50 cursor-pointer transition-all" style={{ borderColor: M.bg3 }}>
+                  <input
+                    type="radio"
+                    name={`question-${currentQuestionIndex}`}
+                    value={option}
+                    checked={quizAnswers[currentQuestionIndex] === option}
+                    onChange={(e) => setQuizAnswers(prev => ({ ...prev, [currentQuestionIndex]: e.target.value }))}
+                    className="w-4 h-4 text-[#6B9080] focus:ring-[#6B9080]"
+                  />
+                  <span className="text-[#2C3E3F]">{option}</span>
+                </label>
+              ))
+            )}
           </div>
         </div>
 
@@ -619,13 +623,31 @@ export default function StudyPlannerAssessment() {
                   alert('Please answer the first question before proceeding.');
                 }
               }}
-              disabled={!quizAnswers[currentQuestionIndex]}
+              disabled={
+                currentQuestion.type === "open-ended"
+                  ? !quizAnswers[currentQuestionIndex] || quizAnswers[currentQuestionIndex].trim() === ''
+                  : currentQuestion.type === "multiple-choice"
+                  ? !quizAnswers[currentQuestionIndex] || quizAnswers[currentQuestionIndex].length === 0
+                  : !quizAnswers[currentQuestionIndex]
+              }
               className={`px-6 py-3 rounded-lg font-medium flex items-center gap-2 transition-all ${
-                !quizAnswers[currentQuestionIndex]
+                (currentQuestion.type === "open-ended"
+                  ? !quizAnswers[currentQuestionIndex] || quizAnswers[currentQuestionIndex].trim() === ''
+                  : currentQuestion.type === "multiple-choice"
+                  ? !quizAnswers[currentQuestionIndex] || quizAnswers[currentQuestionIndex].length === 0
+                  : !quizAnswers[currentQuestionIndex])
                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                   : 'text-white hover:shadow-lg'
               }`}
-              style={!quizAnswers[currentQuestionIndex] ? {} : { background: M.primary }}
+              style={
+                (currentQuestion.type === "open-ended"
+                  ? !quizAnswers[currentQuestionIndex] || quizAnswers[currentQuestionIndex].trim() === ''
+                  : currentQuestion.type === "multiple-choice"
+                  ? !quizAnswers[currentQuestionIndex] || quizAnswers[currentQuestionIndex].length === 0
+                  : !quizAnswers[currentQuestionIndex])
+                  ? {}
+                  : { background: M.primary }
+              }
             >
               Next
               <ChevronRight className="w-4 h-4" />
@@ -633,7 +655,6 @@ export default function StudyPlannerAssessment() {
           )}
         </div>
       </main>
-      <BottomNav />
     </div>
   );
 }

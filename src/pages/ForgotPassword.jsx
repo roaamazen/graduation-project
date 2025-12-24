@@ -1,113 +1,62 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Mail, ArrowLeft, GraduationCap } from "lucide-react";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [isCheckingEmail, setIsCheckingEmail] = useState(false);
-  const [user, setUser] = useState(null);
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const [emailError, setEmailError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
 
-  const [isSendingLink, setIsSendingLink] = useState(false);
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-  const mockUsers = [
-    { email: "test@example.com", name:" رؤى مازن", picture: null },
-    { email: "user@mentora.com", name: "مازن بدران", picture: null }
-  ];
+  const goBack = () => alert("Back to Home");
+  const goToLogin = () => alert("Go to Login");
 
-  const validateEmailFormat = (value) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(value);
-  };
+  const handleSendResetLink = (e) => {
+    e.preventDefault();
+    setMessage("");
+    setError("");
 
-  useEffect(() => {
-    if (!email) {
-      setUser(null);
-      setEmailError("");
-      setIsValidEmail(false);
+    if (!isValidEmail(email)) {
+      setError("Please enter a valid email address");
       return;
     }
 
-    const t = setTimeout(async () => {
-      if (!validateEmailFormat(email)) {
-        setEmailError("Please enter a valid email address");
-        setUser(null);
-        setIsValidEmail(false);
-        return;
-      }
+    setLoading(true);
 
-      setIsCheckingEmail(true);
-      setTimeout(() => {
-        const foundUser = mockUsers.find(u => u.email === email);
-        if (foundUser) {
-          setUser(foundUser);
-          setEmailError("");
-          setIsValidEmail(true);
-        } else {
-          setUser(null);
-          setEmailError("No account found with this email");
-          setIsValidEmail(false);
-        }
-        setIsCheckingEmail(false);
-      }, 500);
-    }, 500);
-
-    return () => clearTimeout(t);
-  }, [email]);
-
-  const goBack = () => alert("Back to Home");
-  const goToLogin = () => alert("Navigate to Login");
-
-  const handleSendResetLink = (e) => {
-    if (e) e.preventDefault();
-
-    setIsSendingLink(true);
     setTimeout(() => {
-      setIsSendingLink(false);
-      alert("Reset link sent to your email! (Demo)");
-      goToLogin();
-    }, 1500);
+      setMessage("Reset link sent to your email! (Demo)");
+      setLoading(false);
+    }, 1000);
   };
 
   return (
-    <div className="min-h-screen bg-[#F6FFF8] flex items-center justify-center p-4 relative text-[#2C3E3F]">
+    <div className="min-h-screen bg-[#F6FFF8] flex items-center justify-center p-4 text-[#2C3E3F] relative">
       <button
         onClick={goBack}
-        className="absolute top-6 left-6 text-[#6B9080] hover:text-[#A4C3B2] flex items-center gap-2 transition-colors"
+        className="absolute top-6 left-6 flex items-center gap-2 text-[#6B9080] hover:text-[#A4C3B2]"
       >
         <ArrowLeft className="w-5 h-5" />
         <span>Back to Home</span>
       </button>
 
       <div className="w-full max-w-md relative">
-        <div className="flex items-center justify-center mb-6 relative z-10">
-          <div className="w-10 h-10 bg-gradient-to-br from-[#6B9080] to-[#A4C3B2] rounded-lg flex items-center justify-center shadow-md">
+        <div className="flex items-center justify-center mb-6">
+          <div className="w-10 h-10 bg-gradient-to-br from-[#6B9080] to-[#A4C3B2] rounded-lg flex items-center justify-center">
             <GraduationCap className="w-6 h-6 text-white" />
           </div>
-          <span className="text-[#2C3E3F] text-2xl font-semibold ml-2">Mentora</span>
+          <span className="ml-2 text-2xl font-semibold">Mentora</span>
         </div>
 
-        <div className="bg-white border-2 border-[#A4C3B2] shadow-xl rounded-2xl p-8">
-          <h2 className="text-[#2C3E3F] text-3xl mb-2 text-center">Reset Password</h2>
+        <div className="bg-white border-2 border-[#A4C3B2] rounded-2xl shadow-xl p-8">
+          <h2 className="text-3xl text-center mb-2">Reset Password</h2>
           <p className="text-[#6B9080] text-center mb-6">
             Enter your email to receive a reset link
           </p>
 
-          <div className="space-y-6">
-            {user && (
-              <div className="flex gap-2 bg-[#6B9080]/10 p-2 rounded-xl items-center mb-2">
-                <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-100 flex items-center justify-center text-[#6B9080] font-semibold">
-                  {user.name?.charAt(0) ?? "U"}
-                </div>
-                <div className="text-sm">
-                  <strong className="font-semibold text-[#2C3E3F]">{user.name}</strong>
-                  <p className="text-[#6B9080] text-xs">{user.email}</p>
-                </div>
-              </div>
-            )}
-
+          <form className="space-y-6" onSubmit={handleSendResetLink}>
             <div className="space-y-2">
-              <label htmlFor="email" className="text-sm text-[#6B9080] mb-2 block">
+              <label htmlFor="email" className="text-sm text-[#6B9080] block">
                 Email
               </label>
               <div className="relative">
@@ -117,34 +66,27 @@ export default function ForgotPassword() {
                   type="email"
                   placeholder="your.email@example.com"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value.trim())}
-                  className="pl-11 w-full px-4 py-3 rounded-xl bg-[#F6FFF8] border border-[#A4C3B2] text-[#2C3E3F] placeholder:text-[#6B9080]/40 focus:border-[#6B9080] focus:ring-2 focus:ring-[#6B9080] outline-none"
-                  disabled={isSendingLink}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="pl-11 w-full px-4 py-3 rounded-xl bg-[#F6FFF8] border border-[#A4C3B2] focus:border-[#6B9080] focus:ring-2 focus:ring-[#6B9080] outline-none"
+                  disabled={loading}
                 />
-                {isCheckingEmail && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-[#6B9080]">
-                    checking...
-                  </div>
-                )}
               </div>
-              {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
-              {isValidEmail && !emailError && (
-                <p className="text-green-600 text-sm mt-1">✓ Valid email</p>
-              )}
+              {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+              {message && <p className="text-green-600 text-sm mt-1">{message}</p>}
             </div>
 
             <button
-              onClick={handleSendResetLink}
-              disabled={isSendingLink || !isValidEmail}
-              className={`w-full mt-2 py-3 rounded-xl font-medium shadow-lg transition ${
-                isSendingLink || !isValidEmail
+              type="submit"
+              disabled={loading || !email.trim()}
+              className={`w-full py-3 rounded-xl font-medium shadow-lg ${
+                loading || !email.trim()
                   ? "bg-gray-300 text-gray-600 cursor-not-allowed"
                   : "bg-[#6B9080] hover:bg-[#577466] text-white"
               }`}
             >
-              {isSendingLink ? "Sending..." : "Send Reset Link"}
+              {loading ? "Sending..." : "Send Reset Link"}
             </button>
-          </div>
+          </form>
 
           <div className="mt-6 text-center">
             <p className="text-[#6B9080]">
@@ -159,7 +101,6 @@ export default function ForgotPassword() {
         <div className="absolute top-20 left-10 w-20 h-20 bg-[#A4C3B2]/40 rounded-full blur-xl" />
         <div className="absolute bottom-20 right-10 w-32 h-32 bg-[#6B9080]/30 rounded-full blur-xl" />
       </div>
-      
     </div>
   );
 }

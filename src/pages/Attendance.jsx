@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useUser } from '../contexts/UserContext';
 import {
   ClipboardCheck,
   Home as HomeIcon,
@@ -11,6 +12,8 @@ import {
 
 export default function Attendance() {
   const navigate = useNavigate();
+  const { user } = useUser();
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // Theme colors
   const M = {
@@ -25,11 +28,11 @@ export default function Attendance() {
 
   // Attendance state
   const [attendanceRecords, setAttendanceRecords] = useState([
-    { id: 1, subject: 'Mathematics', date: '2024-12-15', status: 'present' },
-    { id: 2, subject: 'Physics', date: '2024-12-15', status: 'present' },
-    { id: 3, subject: 'Chemistry', date: '2024-12-14', status: 'absent' },
+    { id: 1, subject: 'Computer Networks', date: '2024-12-15', status: 'present' },
+    { id: 2, subject: 'Operating Systems', date: '2024-12-15', status: 'present' },
+    { id: 3, subject: 'Database Management', date: '2024-12-14', status: 'absent' },
     { id: 4, subject: 'Computer Science', date: '2024-12-14', status: 'present' },
-    { id: 5, subject: 'Mathematics', date: '2024-12-13', status: 'present' },
+    { id: 5, subject: 'Software Engineering', date: '2024-12-13', status: 'present' },
   ]);
 
   const [newSubject, setNewSubject] = useState('');
@@ -81,9 +84,17 @@ export default function Attendance() {
       </div>
 
       <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Home</button>
-        <button onClick={() => navigate('/dashboard')} className="text-white font-medium hover:underline hidden md:block">Dashboard</button>
-        <button onClick={() => navigate('/profile')} className="text-white font-medium hover:underline hidden md:block">Profile</button>
+        {isLoggedIn ? (
+          <button
+            onClick={() => navigate('/profile')}
+            className="ml-4 w-10 h-10 rounded-full border-2 border-white overflow-hidden hover:scale-110 transition-transform"
+            title="Open profile"
+          >
+            <img src={user.avatar} alt="avatar" className="w-full h-full object-cover" />
+          </button>
+        ) : (
+          <button onClick={() => navigate('/login')} className="ml-4 bg-white text-[#6B9080] px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-shadow">Login</button>
+        )}
       </nav>
     </header>
   );
@@ -181,7 +192,6 @@ export default function Attendance() {
           </div>
         </div>
       </main>
-      <BottomNav />
     </div>
   );
 }

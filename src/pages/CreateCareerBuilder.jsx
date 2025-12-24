@@ -2,29 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import {
-  Target,
-  ChevronRight,
-  Award,
-  CheckSquare,
   BookOpen,
-  TrendingUp,
-  Clock,
-  BookMarked,
-  RotateCcw,
-  ArrowLeft,
-  ArrowRight,
-  Brain,
-  Home as HomeIcon,
-  User as UserIcon,
-  LayoutDashboard,
-  FileText,
-  Download,
-  Lightbulb,
-  ListChecks,
-  Zap,
-  FileText as FileTextIcon,
-  ExternalLink,
-  BarChart3,
+  GraduationCap,
+  Briefcase,
+  TrendingUp as TrendingUpIcon,
 } from 'lucide-react';
 
 export default function CreateCareerBuilder() {
@@ -44,142 +25,178 @@ export default function CreateCareerBuilder() {
   const questions = [
     {
       id: 'q1',
-      question: 'What career field or job role are you most interested in right now?',
-      options: [
-        'Software Development',
-        'Data Science',
-        'Marketing',
-        'Business Management'
-      ]
+      type: 'short_answer',
+      question: ' Career Field (Short Answer)\n\nWhat career field or job role are you most interested in right now?',
+      placeholder: 'e.g., Software Developer, Data Scientist, Product Manager...'
     },
     {
       id: 'q2',
-      question: 'Why does this career appeal to you?',
-      options: [
-        'High salary potential',
-        'Creative freedom',
-        'Helping others',
-        'Job stability'
-      ]
+      type: 'short_answer',
+      question: 'Career Motivation (Short Answer)\n\nWhy does this career appeal to you?',
+      placeholder: 'e.g., I enjoy solving complex problems, creative freedom, helping others...'
     },
     {
       id: 'q3',
-      question: 'Which industries attract you the most?',
+      type: 'multiple_choice',
+      maxSelections: 2,
+      question: ' Industry Interest (Multiple Choice)\n\nWhich industries attract you the most? (Select up to 2)',
       options: [
-        'Technology',
-        'Healthcare',
-        'Finance',
-        'Education'
+        'Technology / Software',
+        'Cybersecurity',
+        'Data & AI',
+        'Finance / FinTech',
+        'Healthcare / HealthTech',
+        'Education / EdTech',
+        'E-commerce / Startups',
+        'Consulting / Business Services',
+        'Government / Public Sector',
+        'Other: _______'
       ]
     },
     {
       id: 'q4',
-      question: 'What are your top strengths?',
+      type: 'multiple_choice',
+      maxSelections: 3,
+      question: ' Core Strengths (Multiple Choice)\n\nWhat are your top strengths? (Select up to 3)',
       options: [
         'Problem-solving',
-        'Communication',
+        'Analytical thinking',
         'Creativity',
-        'Leadership'
+        'Communication',
+        'Leadership',
+        'Organization & planning',
+        'Learning fast',
+        'Technical skills',
+        'Adaptability'
       ]
     },
     {
       id: 'q5',
-      question: 'What technical or practical skills do you already have?',
-      options: [
-        'Programming',
-        'Data analysis',
-        'Project management',
-        'Writing'
-      ]
+      type: 'short_answer',
+      question: ' Existing Skills (Short Answer)\n\nWhat technical or practical skills do you already have?',
+      placeholder: 'e.g., JavaScript, Python, React, SQL, project management...'
     },
     {
       id: 'q6',
-      question: 'Which skills do you need to improve or learn for your ideal career?',
+      type: 'multiple_choice',
+      maxSelections: null, // Select all that apply
+      question: ' Skill Gaps (Multiple Choice)\n\nWhich skills do you need to improve or learn? (Select all that apply)',
       options: [
-        'Advanced programming',
-        'Data visualization',
-        'Digital marketing',
-        'Leadership skills'
+        'Programming / Technical depth',
+        'System design / Architecture',
+        'Problem-solving / Algorithms',
+        'Communication & presentation',
+        'Time management & consistency',
+        'Teamwork',
+        'Leadership',
+        'Real-world experience',
+        'Portfolio / Projects'
       ]
     },
     {
       id: 'q7',
-      question: 'List any experience you have (internships, projects, volunteer work, competitions).',
+      type: 'multiple_choice',
+      maxSelections: null, // Select all that apply
+      question: ' Experience Level (Multiple Choice)\n\nWhat experience do you currently have? (Select all that apply)',
       options: [
-        'Internship experience',
+        'Academic projects',
         'Personal projects',
+        'Internship',
         'Volunteer work',
-        'Academic projects'
+        'Hackathons / Competitions',
+        'Freelance / Paid work',
+        'No real experience yet'
       ]
     },
     {
       id: 'q8',
-      question: 'Do you prefer working with people or working alone?',
+      type: 'single_choice',
+      question: ' Work Preference (Multiple Choice)\n\nHow do you prefer to work?',
       options: [
-        'Working with people',
-        'Working alone',
-        'Mix of both',
-        'Depends on the task'
+        'Mostly alone',
+        'Mostly with a team',
+        'Balanced (alone + team)'
       ]
     },
     {
       id: 'q9',
-      question: 'Which best describes you: analytical, creative, structured, flexible, or leadership-driven?',
+      type: 'single_choice',
+      question: ' Personality Style (Multiple Choice)\n\nWhich best describes you?',
       options: [
         'Analytical',
         'Creative',
         'Structured',
+        'Flexible',
         'Leadership-driven'
       ]
     },
     {
       id: 'q10',
-      question: 'Which activities do you enjoy most: problem-solving, building things, research, management, or creativity?',
+      type: 'multiple_choice',
+      maxSelections: 2,
+      question: ' Enjoyed Activities (Multiple Choice)\n\nWhich activities do you enjoy most? (Select up to 2)',
       options: [
         'Problem-solving',
         'Building things',
-        'Research',
-        'Management'
+        'Research & analysis',
+        'Management & coordination',
+        'Creative work'
       ]
     },
     {
       id: 'q11',
-      question: 'How fast do you learn new skills, and what learning style works best for you?',
+      type: 'single_choice',
+      question: ' Learning Speed & Style (Multiple Choice)\n\nHow do you learn best?',
       options: [
-        'Very quickly',
-        'Moderately',
-        'Slowly but steadily',
-        'Need structured guidance'
+        'Fast learner, self-study',
+        'Moderate pace, structured courses',
+        'Slow but deep learning',
+        'Learning by doing (projects)',
+        'Learning with mentorship/guidance'
       ]
     },
     {
       id: 'q12',
-      question: 'How do you handle stress, deadlines, and pressure?',
+      type: 'single_choice',
+      question: ' Pressure Handling (Multiple Choice)\n\nHow do you handle stress and deadlines?',
       options: [
-        'Thrive under pressure',
-        'Manage well with planning',
-        'Find it challenging',
-        'Need breaks and support'
+        'I perform better under pressure',
+        'I handle it well with planning',
+        'I struggle but improve with structure',
+        'I get overwhelmed easily'
       ]
     },
     {
       id: 'q13',
-      question: 'Where do you see yourself in 2 years and 5 years, and what salary range are you aiming for at the start?',
+      type: 'mixed',
+      question: ' Future Vision (Multiple Choice + Short Answer)\n\nWhere do you see yourself in 2–5 years?',
       options: [
-        'Entry-level position',
-        'Mid-level position',
-        'Senior position',
-        'Leadership role'
-      ]
+        'Junior role',
+        'Mid-level professional',
+        'Specialist / Expert',
+        'Team lead / Manager',
+        'Founder / Entrepreneur'
+      ],
+      hasSalaryField: true,
+      salaryPlaceholder: 'Target starting salary (optional): _______'
     },
     {
       id: 'q14',
-      question: 'What is the biggest thing holding you back right now, and how much time per week can you dedicate to career development?',
+      type: 'mixed',
+      question: 'Constraints & Time (Multiple Choice)\n\nWhat is your biggest current challenge?',
       options: [
-        'Lack of experience',
-        'Limited skills',
-        'Time constraints',
-        'Lack of confidence'
+        'Lack of skills',
+        'Lack of consistency',
+        'Lack of confidence',
+        'Time management',
+        'No clear direction'
+      ],
+      hasTimeField: true,
+      timeOptions: [
+        '5–7 hours',
+        '8–12 hours',
+        '13–20 hours',
+        '20+ hours'
       ]
     }
   ];
@@ -187,20 +204,55 @@ export default function CreateCareerBuilder() {
   const [currentStep, setCurrentStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [showResult, setShowResult] = useState(false);
-  const [hasAttempted, setHasAttempted] = useState(false);
-  const [isGenerating, setIsGenerating] = useState(false);
-  const [generationError, setGenerationError] = useState(null);
-  const [lastAttempted, setLastAttempted] = useState(null);
   const [status, setStatus] = useState('Draft');
   const [hasCompletedAssessment, setHasCompletedAssessment] = useState(false);
   const [showQuiz, setShowQuiz] = useState(false);
 
-  const updateAnswer = (questionId, value) => {
-    setAnswers(prev => ({ ...prev, [questionId]: value }));
+  const updateAnswer = (questionId, value, isMultiple = false) => {
+    if (isMultiple) {
+      setAnswers(prev => {
+        const currentAnswers = prev[questionId] || [];
+        if (currentAnswers.includes(value)) {
+          return { ...prev, [questionId]: currentAnswers.filter(v => v !== value) };
+        } else {
+          return { ...prev, [questionId]: [...currentAnswers, value] };
+        }
+      });
+    } else {
+      setAnswers(prev => ({ ...prev, [questionId]: value }));
+    }
+  };
+
+  const updateMixedAnswer = (questionId, field, value) => {
+    setAnswers(prev => ({
+      ...prev,
+      [questionId]: {
+        ...prev[questionId],
+        [field]: value
+      }
+    }));
   };
 
   const handleNext = () => {
-    if (answers[questions[currentStep].id]) {
+    const currentAnswer = answers[currentQuestion.id];
+
+    let isValid = false;
+
+    if (currentQuestion.type === 'short_answer') {
+      isValid = currentAnswer && currentAnswer.trim() !== '';
+    } else if (currentQuestion.type === 'multiple_choice') {
+      if (currentQuestion.maxSelections) {
+        isValid = currentAnswer && currentAnswer.length > 0 && currentAnswer.length <= currentQuestion.maxSelections;
+      } else {
+        isValid = currentAnswer && currentAnswer.length > 0;
+      }
+    } else if (currentQuestion.type === 'single_choice') {
+      isValid = currentAnswer && currentAnswer !== '';
+    } else if (currentQuestion.type === 'mixed') {
+      isValid = currentAnswer && currentAnswer.option && currentAnswer.option !== '';
+    }
+
+    if (isValid) {
       if (currentStep < questions.length - 1) {
         setCurrentStep(currentStep + 1);
       } else {
@@ -225,70 +277,53 @@ export default function CreateCareerBuilder() {
     setStatus('Draft');
   };
 
-  const handleAttempt = () => {
-    setHasAttempted(true);
-    setLastAttempted(new Date().toLocaleString());
-    setStatus('Draft');
-  };
-
   const handleSubmitGenerate = async () => {
     if (!hasCompletedAssessment) return;
 
-    setIsGenerating(true);
-    setGenerationError(null);
-
     try {
-      // Simulate AI generation
-      await new Promise(resolve => setTimeout(resolve, 3000));
-      // Assume success for demo
-      navigate('/career-plan');
+      // Submit answers to backend
+      const response = await fetch('/api/submit-assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ answers }),
+      });
+
+      if (response.ok) {
+        navigate('/career-plan');
+      } else {
+        console.error('Failed to submit assessment');
+      }
     } catch (error) {
-      setGenerationError('Failed to generate career plan. Please try again.');
-    } finally {
-      setIsGenerating(false);
+      console.error('Error submitting assessment:', error);
     }
   };
 
-  const Header = () => (
-    <header className="px-6 py-4 flex items-center justify-between shadow-lg"
-      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-          <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
-        </div>
-        <span className="text-white text-xl font-bold">Mentora</span>
-      </div>
+  
+    const Header = () => (
+         <header
+           className="px-6 py-4 flex items-center justify-between shadow-lg"
+           style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}
+         >
+           <div className="flex items-center gap-3">
+             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
+               <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
+             </div>
+             <span className="text-white text-xl font-bold">Mentora - career builder</span>
+           </div>
+     
+           <div className="flex items-center gap-4">
+             <img
+             onClick={() => navigate('/profile')}
+               src={user.avatar}
+               alt="Profile"
+               className="w-10 h-10 rounded-full border-2 border-white hover:scale-110 hover:opacity-90 transition-all cursor-pointer"
+             />
+           </div>
+         </header>
+       );
+     
 
-      <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Study Planner</button>
-        <button onClick={() => navigate('/profile')} className="text-white hover:underline">
-          <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
-        </button>
-      </nav>
-    </header>
-  );
 
-  const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
-      <div className="flex justify-around items-center py-3">
-        <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <HomeIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Home</span>
-        </button>
-
-        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <LayoutDashboard className="w-6 h-6" />
-          <span className="text-xs font-medium">Dashboard</span>
-        </button>
-
-        <button onClick={() => navigate('/profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <UserIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Profile</span>
-        </button>
-      </div>
-    </div>
-  );
 
   if (showResult) {
     return (
@@ -374,13 +409,13 @@ export default function CreateCareerBuilder() {
             <div className="flex justify-center gap-4 mt-8">
               <button
                 onClick={handleSubmitGenerate}
-                disabled={!hasCompletedAssessment || isGenerating}
+                disabled={!hasCompletedAssessment}
                 className={`px-6 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all ${
-                  !hasCompletedAssessment || isGenerating ? 'bg-gray-300 cursor-not-allowed' : ''
+                  !hasCompletedAssessment ? 'bg-gray-300 cursor-not-allowed' : ''
                 }`}
-                style={{ background: hasCompletedAssessment && !isGenerating ? M.primary : undefined }}
+                style={{ background: hasCompletedAssessment ? M.primary : undefined }}
               >
-                {isGenerating ? 'Generating...' : 'Generate Career Plan'}
+                Go to Career Plan
               </button>
               <button
                 onClick={resetForm}
@@ -390,15 +425,11 @@ export default function CreateCareerBuilder() {
                 Retake Assessment
               </button>
             </div>
-            {generationError && (
-              <p className="text-red-500 text-center mt-4">{generationError}</p>
-            )}
           </div>
-        </main>
-        <BottomNav />
-      </div>
-    );
-  }
+      </main>
+    </div>
+  );
+}
 
   if (!showQuiz) {
     return (
@@ -418,30 +449,16 @@ export default function CreateCareerBuilder() {
               Start Career Quiz
             </button>
 
-            {/* Status and Last Attempted Info */}
+            {/* Status Info */}
             <div className="flex flex-col items-center gap-3">
               <span className={`px-4 py-2 rounded-full text-sm font-medium ${
                 status === 'Draft' ? 'bg-yellow-100 text-yellow-800' : 'bg-green-100 text-green-800'
               }`}>
                 {status === 'Draft' ? 'Draft' : 'Completed'}
               </span>
-              {lastAttempted && (
-                <p className="text-sm" style={{ color: M.muted }}>
-                  Last attempted: {new Date(lastAttempted).toLocaleDateString('en-GB', {
-                    day: 'numeric',
-                    month: 'short',
-                    year: 'numeric'
-                  })} – {new Date(lastAttempted).toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    hour12: true
-                  })}
-                </p>
-              )}
             </div>
           </div>
         </main>
-        <BottomNav />
       </div>
     );
   }
@@ -462,11 +479,6 @@ export default function CreateCareerBuilder() {
                 }`}>
                   {status}
                 </span>
-                {lastAttempted && (
-                  <span className="text-sm" style={{ color: M.muted }}>
-                    Last attempted: {lastAttempted}
-                  </span>
-                )}
               </div>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2">
@@ -478,31 +490,114 @@ export default function CreateCareerBuilder() {
           </div>
 
           <div className="mb-8">
-            <h3 className="text-xl font-semibold mb-6" style={{ color: M.text }}>
+            <h3 className="text-xl font-semibold mb-6" style={{ color: M.text, whiteSpace: 'pre-line' }}>
               {currentQuestion.question}
             </h3>
 
             <div className="space-y-3">
-              {currentQuestion.options.map((option, index) => (
-                <label
-                  key={index}
-                  className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md ${
-                    answers[currentQuestion.id] === option
-                      ? 'border-[#6B9080] bg-[#F6FFF8]'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <input
-                    type="radio"
-                    name={currentQuestion.id}
-                    value={option}
-                    checked={answers[currentQuestion.id] === option}
-                    onChange={(e) => updateAnswer(currentQuestion.id, e.target.value)}
-                    className="mr-3 text-[#6B9080] focus:ring-[#6B9080]"
-                  />
-                  <span className="text-lg" style={{ color: M.text }}>{option}</span>
-                </label>
-              ))}
+              {currentQuestion.type === 'short_answer' && (
+                <textarea
+                  placeholder={currentQuestion.placeholder}
+                  value={answers[currentQuestion.id] || ''}
+                  onChange={(e) => updateAnswer(currentQuestion.id, e.target.value)}
+                  className="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-[#6B9080] focus:outline-none resize-none"
+                  rows={4}
+                  style={{ color: M.text }}
+                />
+              )}
+
+              {currentQuestion.type === 'single_choice' && currentQuestion.options && (
+                currentQuestion.options.map((option, index) => (
+                  <label
+                    key={index}
+                    className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md ${
+                      answers[currentQuestion.id] === option
+                        ? 'border-[#6B9080] bg-[#F6FFF8]'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name={currentQuestion.id}
+                      value={option}
+                      checked={answers[currentQuestion.id] === option}
+                      onChange={(e) => updateAnswer(currentQuestion.id, e.target.value)}
+                      className="mr-3 text-[#6B9080] focus:ring-[#6B9080]"
+                    />
+                    <span className="text-lg" style={{ color: M.text }}>{option}</span>
+                  </label>
+                ))
+              )}
+
+              {currentQuestion.type === 'multiple_choice' && currentQuestion.options && (
+                <>
+                  {currentQuestion.maxSelections && (
+                    <p className="text-sm mb-2" style={{ color: M.muted }}>
+                      Select up to {currentQuestion.maxSelections} options
+                    </p>
+                  )}
+                  {currentQuestion.options.map((option, index) => (
+                    <label
+                      key={index}
+                      className={`flex items-center p-4 rounded-lg border-2 cursor-pointer transition-all hover:shadow-md ${
+                        answers[currentQuestion.id] && answers[currentQuestion.id].includes(option)
+                          ? 'border-[#6B9080] bg-[#F6FFF8]'
+                          : 'border-gray-200 hover:border-gray-300'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        value={option}
+                        checked={answers[currentQuestion.id] && answers[currentQuestion.id].includes(option)}
+                        onChange={(e) => updateAnswer(currentQuestion.id, option, true)}
+                        className="mr-3 text-[#6B9080] focus:ring-[#6B9080]"
+                      />
+                      <span className="text-lg" style={{ color: M.text }}>{option}</span>
+                    </label>
+                  ))}
+                </>
+              )}
+
+              {currentQuestion.type === 'mixed' && (
+                <div className="space-y-4">
+                  <div>
+                    <select
+                      value={answers[currentQuestion.id]?.option || ''}
+                      onChange={(e) => updateMixedAnswer(currentQuestion.id, 'option', e.target.value)}
+                      className="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-[#6B9080] focus:outline-none"
+                      style={{ color: M.text }}
+                    >
+                      <option value="">Select an option</option>
+                      {currentQuestion.options.map((option, index) => (
+                        <option key={index} value={option}>{option}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {currentQuestion.hasSalaryField && (
+                    <input
+                      type="text"
+                      placeholder={currentQuestion.salaryPlaceholder}
+                      value={answers[currentQuestion.id]?.salary || ''}
+                      onChange={(e) => updateMixedAnswer(currentQuestion.id, 'salary', e.target.value)}
+                      className="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-[#6B9080] focus:outline-none"
+                      style={{ color: M.text }}
+                    />
+                  )}
+                  {currentQuestion.hasTimeField && (
+                    <select
+                      value={answers[currentQuestion.id]?.time || ''}
+                      onChange={(e) => updateMixedAnswer(currentQuestion.id, 'time', e.target.value)}
+                      className="w-full p-4 border-2 border-gray-200 rounded-lg focus:border-[#6B9080] focus:outline-none"
+                      style={{ color: M.text }}
+                    >
+                      <option value="">Select time commitment</option>
+                      {currentQuestion.timeOptions.map((time, index) => (
+                        <option key={index} value={time}>{time}</option>
+                      ))}
+                    </select>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -530,7 +625,7 @@ export default function CreateCareerBuilder() {
               }`}
               style={{ background: answers[currentQuestion.id] ? M.primary : undefined }}
             >
-              {currentStep === questions.length - 1 ? 'Complete Assessment' : 'Next'}
+              {currentStep === questions.length - 1 ? 'Go to Career Plan' : 'Next'}
             </button>
           </div>
         </div>
@@ -545,7 +640,6 @@ export default function CreateCareerBuilder() {
           </button>
         </div>
       </main>
-      <BottomNav />
     </div>
   );
 }

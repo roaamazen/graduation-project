@@ -1,17 +1,7 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  Calendar,
-  Clock,
-  Trash2,
-  Plus,
-  Home as HomeIcon,
-  LayoutDashboard,
-  User as UserIcon,
-} from 'lucide-react';
+import { Calendar, Clock, Trash2, Plus, CheckSquare } from 'lucide-react';
 
 export default function Planner() {
-  const navigate = useNavigate();
   // Theme colors
   const M = {
     primary: '#6B9080',
@@ -23,9 +13,10 @@ export default function Planner() {
     muted: '#5A7A6B',
   };
 
+  // Events state
   const [events, setEvents] = useState([
-    { id: 1, title: 'Math Exam', date: '2024-12-20', time: '10:00', duration: '2h' },
-    { id: 2, title: 'Physics Lab', date: '2024-12-21', time: '14:00', duration: '3h' },
+    { id: 1, title: 'Web Exam', date: '2024-12-20', time: '10:00', duration: '2h' },
+    { id: 2, title: 'Java Lab', date: '2024-12-21', time: '14:00', duration: '3h' },
   ]);
   const [evTitle, setEvTitle] = useState('');
   const [evDate, setEvDate] = useState('');
@@ -35,51 +26,33 @@ export default function Planner() {
     if (!title || !date || !time) return;
     setEvents(e => [...e, { id: Date.now(), title, date, time, duration: '1h' }]);
   };
+
   const deleteEvent = (id) => setEvents(e => e.filter(x => x.id !== id));
 
-  const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
-      <div className="flex justify-around items-center py-3">
-        <button onClick={() => navigate('/study-planner')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#6B9080]`}>
-          <HomeIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Home</span>
-        </button>
-        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <LayoutDashboard className="w-6 h-6" />
-          <span className="text-xs font-medium">Dashboard</span>
-        </button>
-        <button onClick={() => navigate('/profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <UserIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Profile</span>
-        </button>
-      </div>
-    </div>
-  );
-
+  // Header component
   const Header = () => (
-    <header className="px-6 py-4 flex items-center justify-between shadow-lg"
-      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
+    <header
+      className="px-6 py-4 flex items-center justify-between shadow-lg"
+      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}
+    >
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
-          <Calendar className="w-6 h-6" style={{ color: M.primary }} />
+          <CheckSquare className="w-6 h-6" style={{ color: M.primary }} />
         </div>
-        <span className="text-white text-xl font-bold">Planner</span>
+        <span className="text-white text-xl font-bold">Mentora - Planner</span>
       </div>
-      <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Home</button>
-        <button onClick={() => navigate('/dashboard')} className="text-white font-medium hover:underline hidden md:block">Dashboard</button>
-        <button onClick={() => navigate('/profile')} className="text-white font-medium hover:underline hidden md:block flex items-center gap-1">
-          <UserIcon className="w-4 h-4" />
-          Profile
-        </button>
-      </nav>
     </header>
   );
 
   return (
-    <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24">
+    <div
+      style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }}
+      className="min-h-screen pb-24"
+    >
       <Header />
       <main className="container mx-auto px-4 mt-6">
+
+        {/* Add Event Card */}
         <div className="bg-white rounded-2xl p-5 shadow-lg border mb-4" style={{ borderColor: M.bg3 }}>
           <h3 className="font-bold text-[#2C3E3F] mb-3 flex items-center gap-2">
             <Calendar className="w-5 h-5" style={{ color: M.primary }} />
@@ -125,6 +98,7 @@ export default function Planner() {
           </div>
         </div>
 
+        {/* Upcoming Events */}
         <div className="bg-white rounded-2xl p-5 shadow-lg border" style={{ borderColor: M.bg3 }}>
           <h3 className="font-bold text-[#2C3E3F] mb-4">Upcoming Events</h3>
           <div className="space-y-3">
@@ -163,8 +137,8 @@ export default function Planner() {
             )}
           </div>
         </div>
+
       </main>
-      <BottomNav />
     </div>
   );
 }

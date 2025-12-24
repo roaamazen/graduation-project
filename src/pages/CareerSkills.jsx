@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import {
@@ -56,146 +56,107 @@ export default function CareerSkills() {
     muted: '#5A7A6B',
   };
 
-  // Mock data - in real app this would come from API/state
-  const [skillsData, setSkillsData] = useState({
-    topSkills: [
-      {
-        name: 'JavaScript/TypeScript',
-        type: 'Technical',
-        status: 'Achieved',
-        priority: 1,
-      },
-      {
-        name: 'React/Vue.js',
-        type: 'Technical',
-        status: 'Achieved',
-        priority: 2,
-      },
-      {
-        name: 'Problem Solving',
-        type: 'Soft',
-        status: 'Achieved',
-        priority: 3,
-      },
-      {
-        name: 'Communication',
-        type: 'Soft',
-        status: 'In Progress',
-        priority: 4,
-      },
-      {
-        name: 'API Development',
-        type: 'Technical',
-        status: 'Missing',
-        priority: 5,
-      },
-    ],
-    allSkills: [
-      {
-        name: 'JavaScript/TypeScript',
-        type: 'Technical',
-        status: 'Achieved',
-        priority: 1,
-      },
-      {
-        name: 'React/Vue.js',
-        type: 'Technical',
-        status: 'Achieved',
-        priority: 2,
-      },
-      {
-        name: 'Problem Solving',
-        type: 'Soft',
-        status: 'Achieved',
-        priority: 3,
-      },
-      {
-        name: 'Communication',
-        type: 'Soft',
-        status: 'In Progress',
-        priority: 4,
-      },
-      {
-        name: 'API Development',
-        type: 'Technical',
-        status: 'Missing',
-        priority: 5,
-      },
-      {
-        name: 'Database Management',
-        type: 'Technical',
-        status: 'In Progress',
-        priority: 6,
-      },
-      {
-        name: 'Team Collaboration',
-        type: 'Soft',
-        status: 'Achieved',
-        priority: 7,
-      },
-      {
-        name: 'Version Control (Git)',
-        type: 'Technical',
-        status: 'Achieved',
-        priority: 8,
-      },
-      {
-        name: 'Project Management',
-        type: 'Soft',
-        status: 'Missing',
-        priority: 9,
-      },
-      {
-        name: 'Cloud Computing',
-        type: 'Technical',
-        status: 'Missing',
-        priority: 10,
-      },
-    ],
-  });
+  const [skillsData, setSkillsData] = useState(null);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await fetch('/api/ai/career-skills', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            careerGoal: user.careerGoal,
+            skills: user.skills,
+            level: user.level,
+          }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setSkillsData(data);
+        } else {
+          console.error('Failed to fetch skills');
+          // Provide mock data when API fails
+          setSkillsData({
+            topSkills: [
+              { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+              { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+              { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+              { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+              { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 }
+            ],
+            allSkills: [
+              { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+              { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+              { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+              { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+              { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 },
+              { name: 'Communication', type: 'Soft', status: 'Achieved', priority: 6 },
+              { name: 'Problem Solving', type: 'Soft', status: 'In Progress', priority: 7 },
+              { name: 'Team Work', type: 'Soft', status: 'Achieved', priority: 8 },
+              { name: 'Time Management', type: 'Soft', status: 'In Progress', priority: 9 },
+              { name: 'Adaptability', type: 'Soft', status: 'Missing', priority: 10 }
+            ]
+          });
+        }
+      } catch (error) {
+        console.error('Error fetching skills:', error);
+        // Provide mock data when API fails
+        setSkillsData({
+          topSkills: [
+            { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+            { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+            { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+            { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+            { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 }
+          ],
+          allSkills: [
+            { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+            { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+            { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+            { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+            { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 },
+            { name: 'Communication', type: 'Soft', status: 'Achieved', priority: 6 },
+            { name: 'Problem Solving', type: 'Soft', status: 'In Progress', priority: 7 },
+            { name: 'Team Work', type: 'Soft', status: 'Achieved', priority: 8 },
+            { name: 'Time Management', type: 'Soft', status: 'In Progress', priority: 9 },
+            { name: 'Adaptability', type: 'Soft', status: 'Missing', priority: 10 }
+          ]
+        });
+      }
+    };
+
+    fetchSkills();
+  }, [user]);
 
   const [showAllSkills, setShowAllSkills] = useState(false);
 
-  const Header = () => (
-    <header className="px-6 py-4 flex items-center justify-between shadow-lg"
-      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-          <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
-        </div>
-        <span className="text-white text-xl font-bold">Mentora</span>
-      </div>
+  
+    const Header = () => (
+         <header
+           className="px-6 py-4 flex items-center justify-between shadow-lg"
+           style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}
+         >
+           <div className="flex items-center gap-3">
+             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
+               <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
+             </div>
+             <span className="text-white text-xl font-bold">Mentora - skill</span>
+           </div>
+     
+           <div className="flex items-center gap-4">
+             <img
+             onClick={() => navigate('/profile')}
+               src={user.avatar}
+               alt="Profile"
+               className="w-10 h-10 rounded-full border-2 border-white hover:scale-110 hover:opacity-90 transition-all cursor-pointer"
+             />
+           </div>
+         </header>
+       );
+     
 
-      <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Study Planner</button>
-        <button onClick={() => navigate('/profile')} className="text-white hover:underline">
-          <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
-        </button>
-      </nav>
-    </header>
-  );
-
-  const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
-      <div className="flex justify-around items-center py-3">
-        <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <HomeIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Home</span>
-        </button>
-
-        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <LayoutDashboard className="w-6 h-6" />
-          <span className="text-xs font-medium">Dashboard</span>
-        </button>
-
-        <button onClick={() => navigate('/profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <UserIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Profile</span>
-        </button>
-      </div>
-    </div>
-  );
 
   const getStatusBadge = (status) => {
     switch (status) {
@@ -224,6 +185,17 @@ export default function CareerSkills() {
         return null;
     }
   };
+
+  if (skillsData === null) {
+    return (
+      <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p style={{ color: M.text }}>Loading skills...</p>
+        </div>
+      </div>
+    );
+  }
 
   const displayedSkills = showAllSkills ? skillsData.allSkills : skillsData.topSkills;
 
@@ -315,7 +287,6 @@ export default function CareerSkills() {
           </button>
         </div>
       </main>
-      <BottomNav />
     </div>
   );
 }

@@ -39,6 +39,7 @@ import {
 export default function CareerPlan() {
   const navigate = useNavigate();
   const { user } = useUser();
+  const { careerPlan } = user;
 
   const M = {
     primary: '#6B9080',
@@ -50,93 +51,32 @@ export default function CareerPlan() {
     muted: '#5A7A6B',
   };
 
-  // Mock data - in real app this would come from API/state
-  const [planStatus, setPlanStatus] = useState('Generated'); // 'Not Generated', 'Generated', 'Outdated'
-
-  const careerTimeline = [
-    {
-      stage: 'Learning Phase',
-      duration: '3-6 months',
-      description: 'Build foundational skills and knowledge',
-      skills: ['Programming Basics', 'Problem Solving', 'Basic Algorithms'],
-      icon: GraduationCap,
-      completed: true
-    },
-    {
-      stage: 'Training Phase',
-      duration: '6-12 months',
-      description: 'Gain practical experience through projects',
-      skills: ['Project Management', 'Version Control', 'Team Collaboration'],
-      icon: Briefcase,
-      completed: true
-    },
-    {
-      stage: 'Employment Phase',
-      duration: 'Ongoing',
-      description: 'Secure and advance in your career',
-      skills: ['Advanced Programming', 'Leadership', 'Communication'],
-      icon: TrendingUpIcon,
-      completed: false
-    }
-  ];
-
-  const skillsPreview = {
-    technical: [
-      'JavaScript/TypeScript',
-      'React/Vue.js',
-      'Node.js',
-      'Database Design',
-      'API Development'
-    ],
-    soft: [
-      'Communication',
-      'Problem Solving',
-      'Team Work',
-      'Time Management',
-      'Adaptability'
-    ]
-  };
+  const planStatus = careerPlan ? 'Generated' : 'Not Generated';
 
   const Header = () => (
-    <header className="px-6 py-4 flex items-center justify-between shadow-lg"
-      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-          <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
-        </div>
-        <span className="text-white text-xl font-bold">Mentora</span>
-      </div>
+       <header
+         className="px-6 py-4 flex items-center justify-between shadow-lg"
+         style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}
+       >
+         <div className="flex items-center gap-3">
+           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
+             <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
+           </div>
+           <span className="text-white text-xl font-bold">Mentora - plan</span>
+         </div>
+   
+         <div className="flex items-center gap-4">
+           <img
+           onClick={() => navigate('/profile')}
+             src={user.avatar}
+             alt="Profile"
+             className="w-10 h-10 rounded-full border-2 border-white hover:scale-110 hover:opacity-90 transition-all cursor-pointer"
+           />
+         </div>
+       </header>
+     );
+   
 
-      <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Study Planner</button>
-        <button onClick={() => navigate('/profile')} className="text-white hover:underline">
-          <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
-        </button>
-      </nav>
-    </header>
-  );
-
-  const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
-      <div className="flex justify-around items-center py-3">
-        <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <HomeIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Home</span>
-        </button>
-
-        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <LayoutDashboard className="w-6 h-6" />
-          <span className="text-xs font-medium">Dashboard</span>
-        </button>
-
-        <button onClick={() => navigate('/profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <UserIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Profile</span>
-        </button>
-      </div>
-    </div>
-  );
 
   const getStatusBadge = () => {
     switch (planStatus) {
@@ -166,6 +106,29 @@ export default function CareerPlan() {
     }
   };
 
+  if (!careerPlan) {
+    return (
+      <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24">
+        <Header />
+        <main className="container mx-auto px-4 mt-6">
+          <div className="bg-white rounded-3xl p-8 shadow-lg border text-center" style={{ borderColor: M.bg3 }}>
+            <h1 className="text-3xl font-bold mb-4" style={{ color: M.text }}>No Career Plan Generated</h1>
+            <p className="text-lg mb-6" style={{ color: M.muted }}>
+              You haven't generated a career plan yet. Please take the career assessment to create your personalized plan.
+            </p>
+            <button
+              onClick={() => navigate('/create-career-builder')}
+              className="px-8 py-4 rounded-lg text-white font-medium hover:shadow-lg transition-all text-lg"
+              style={{ background: M.primary }}
+            >
+              Take Career Assessment
+            </button>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
   return (
     <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24">
       <Header />
@@ -179,7 +142,7 @@ export default function CareerPlan() {
         <div className="bg-white rounded-3xl p-6 shadow-lg border mb-6" style={{ borderColor: M.bg3 }}>
           <h2 className="text-2xl font-bold mb-6" style={{ color: M.text }}>Career Timeline</h2>
           <div className="space-y-6">
-            {careerTimeline.map((stage, index) => {
+            {careerPlan.timeline.map((stage, index) => {
               const IconComponent = stage.icon;
               return (
                 <div key={index} className="flex items-start gap-4">
@@ -227,7 +190,7 @@ export default function CareerPlan() {
                 <h3 className="text-lg font-semibold" style={{ color: M.text }}>Technical Skills</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {skillsPreview.technical.map((skill, index) => (
+                {careerPlan.skillsPreview.technical.map((skill, index) => (
                   <span
                     key={index}
                     className="px-3 py-2 bg-green-50 text-green-700 rounded-lg text-sm font-medium border border-green-200"
@@ -245,7 +208,7 @@ export default function CareerPlan() {
                 <h3 className="text-lg font-semibold" style={{ color: M.text }}>Soft Skills</h3>
               </div>
               <div className="flex flex-wrap gap-2">
-                {skillsPreview.soft.map((skill, index) => (
+                {careerPlan.skillsPreview.soft.map((skill, index) => (
                   <span
                     key={index}
                     className="px-3 py-2 bg-purple-50 text-purple-700 rounded-lg text-sm font-medium border border-purple-200"
@@ -282,8 +245,7 @@ export default function CareerPlan() {
             View Career Plan
           </button>
         </div>
-      </main>
-      <BottomNav />
-    </div>
-  );
-}
+        </main>
+      </div>
+    );
+  }

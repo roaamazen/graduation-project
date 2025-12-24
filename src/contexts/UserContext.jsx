@@ -21,7 +21,15 @@ export const UserProvider = ({ children }) => {
     studyStreak: 7,
     totalHours: 124,
     completedTasks: 45,
+    todosPending: 3,
+    notesCount: 12,
+    eventsCount: 5,
+    attendanceRate: 95,
     bio: 'Computer Science student passionate about learning and personal growth.',
+    careerGoal: 'Software Developer',
+    skills: ['JavaScript', 'React', 'Node.js'],
+    level: 'Beginner',
+    careerPlan: null, // Will store the generated career plan
   });
 
   const updateUser = (updates) => {

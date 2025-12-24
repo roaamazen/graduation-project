@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
 import {
@@ -38,6 +38,11 @@ import {
   PieChart,
   Calendar,
   Trophy,
+  X,
+  Eye,
+  Percent,
+  Goal,
+  MapPin,
 } from 'lucide-react';
 
 export default function CareerProgress() {
@@ -54,196 +59,291 @@ export default function CareerProgress() {
     muted: '#5A7A6B',
   };
 
-  // Mock data - in real app this would come from API/state
-  const [progressData, setProgressData] = useState({
-    careerTimeline: [
-      {
-        stage: 'Learning Phase',
-        completed: true
-      },
-      {
-        stage: 'Training Phase',
-        completed: true
-      },
-      {
-        stage: 'Employment Phase',
-        completed: false
+  const [skillsData, setSkillsData] = useState(null);
+  const [progressData, setProgressData] = useState(null);
+
+  useEffect(() => {
+    const fetchSkills = async () => {
+      try {
+        const response = await fetch('/api/ai/career-skills', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            careerGoal: user.careerGoal,
+            skills: user.skills,
+            level: user.level,
+          }),
+        });
+        if (response.ok) {
+          const data = await response.json();
+          setSkillsData(data);
+        } else {
+          console.error('Failed to fetch skills');
+          // Provide mock data when API fails
+          const mockData = {
+            topSkills: [
+              { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+              { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+              { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+              { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+              { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 }
+            ],
+            allSkills: [
+              { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+              { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+              { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+              { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+              { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 },
+              { name: 'Communication', type: 'Soft', status: 'Achieved', priority: 6 },
+              { name: 'Problem Solving', type: 'Soft', status: 'In Progress', priority: 7 },
+              { name: 'Team Work', type: 'Soft', status: 'Achieved', priority: 8 },
+              { name: 'Time Management', type: 'Soft', status: 'In Progress', priority: 9 },
+              { name: 'Adaptability', type: 'Soft', status: 'Missing', priority: 10 }
+            ]
+          };
+          setSkillsData(mockData);
+        }
+      } catch (error) {
+        console.error('Error fetching skills:', error);
+        // Provide mock data when API fails
+        const mockData = {
+          topSkills: [
+            { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+            { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+            { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+            { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+            { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 }
+          ],
+          allSkills: [
+            { name: 'JavaScript/TypeScript', type: 'Technical', status: 'Achieved', priority: 1 },
+            { name: 'React/Vue.js', type: 'Technical', status: 'In Progress', priority: 2 },
+            { name: 'Node.js', type: 'Technical', status: 'In Progress', priority: 3 },
+            { name: 'Database Design', type: 'Technical', status: 'Missing', priority: 4 },
+            { name: 'API Development', type: 'Technical', status: 'Missing', priority: 5 },
+            { name: 'Communication', type: 'Soft', status: 'Achieved', priority: 6 },
+            { name: 'Problem Solving', type: 'Soft', status: 'In Progress', priority: 7 },
+            { name: 'Team Work', type: 'Soft', status: 'Achieved', priority: 8 },
+            { name: 'Time Management', type: 'Soft', status: 'In Progress', priority: 9 },
+            { name: 'Adaptability', type: 'Soft', status: 'Missing', priority: 10 }
+          ]
+        };
+        setSkillsData(mockData);
       }
-    ],
-    skillsProgress: {
-      technical: 70,
-      soft: 60,
-    },
-    goals: [
-      {
-        id: 1,
-        title: 'Complete React Certification',
-        progress: 80,
-        deadline: '2024-06-30',
-        status: 'In Progress',
-      },
-      {
-        id: 2,
-        title: 'Build Portfolio Project',
-        progress: 45,
-        deadline: '2024-08-15',
-        status: 'In Progress',
-      },
-      {
-        id: 3,
-        title: 'Network with 5 Professionals',
-        progress: 100,
-        deadline: '2024-05-01',
-        status: 'Completed',
-      },
-    ],
-    achievements: [
-      'Completed 3 online courses',
-      'Built 2 portfolio projects',
-      'Attended 2 networking events',
-      'Gained 6 months of experience',
-    ],
-  });
+    };
 
-  // Calculate overall progress based on stages, skills, and goals
-  const calculateOverallProgress = () => {
-    const stagesCompleted = progressData.careerTimeline.filter(stage => stage.completed).length;
-    const totalStages = progressData.careerTimeline.length;
-    const stagesProgress = (stagesCompleted / totalStages) * 100;
+    fetchSkills();
+  }, [user]);
 
-    const skillsAverage = (progressData.skillsProgress.technical + progressData.skillsProgress.soft) / 2;
+  useEffect(() => {
+    if (skillsData) {
+      // Calculate overall progress based on skills
+      const achievedSkills = skillsData.allSkills.filter(skill => skill.status === 'Achieved').length;
+      const totalSkills = skillsData.allSkills.length;
+      const overallProgress = Math.round((achievedSkills / totalSkills) * 100);
 
-    const goalsCompleted = progressData.goals.filter(goal => goal.status === 'Completed').length;
-    const totalGoals = progressData.goals.length;
-    const goalsProgress = (goalsCompleted / totalGoals) * 100;
+      // Generate dynamic milestones based on skills
+      const milestones = [
+        {
+          id: 1,
+          title: 'Foundation Skills',
+          description: 'Master core programming fundamentals',
+          progress: calculateMilestoneProgress(skillsData.allSkills, ['JavaScript/TypeScript', 'Problem Solving']),
+          status: getMilestoneStatus(calculateMilestoneProgress(skillsData.allSkills, ['JavaScript/TypeScript', 'Problem Solving'])),
+          deadline: '2024-02-01',
+          skills: ['JavaScript/TypeScript', 'Problem Solving']
+        },
+        {
+          id: 2,
+          title: 'Web Development',
+          description: 'Build modern web applications',
+          progress: calculateMilestoneProgress(skillsData.allSkills, ['React/Vue.js', 'Node.js', 'API Development']),
+          status: getMilestoneStatus(calculateMilestoneProgress(skillsData.allSkills, ['React/Vue.js', 'Node.js', 'API Development'])),
+          deadline: '2024-04-01',
+          skills: ['React/Vue.js', 'Node.js', 'API Development']
+        },
+        {
+          id: 3,
+          title: 'Database & Backend',
+          description: 'Handle data storage and server-side logic',
+          progress: calculateMilestoneProgress(skillsData.allSkills, ['Database Design']),
+          status: getMilestoneStatus(calculateMilestoneProgress(skillsData.allSkills, ['Database Design'])),
+          deadline: '2024-05-01',
+          skills: ['Database Design']
+        },
+        {
+          id: 4,
+          title: 'Professional Skills',
+          description: 'Develop essential soft skills for career success',
+          progress: calculateMilestoneProgress(skillsData.allSkills, ['Communication', 'Team Work', 'Time Management', 'Adaptability']),
+          status: getMilestoneStatus(calculateMilestoneProgress(skillsData.allSkills, ['Communication', 'Team Work', 'Time Management', 'Adaptability'])),
+          deadline: '2024-06-01',
+          skills: ['Communication', 'Team Work', 'Time Management', 'Adaptability']
+        }
+      ];
 
-    return Math.round((stagesProgress + skillsAverage + goalsProgress) / 3);
+      setProgressData({
+        overallProgress,
+        milestones
+      });
+    }
+  }, [skillsData]);
+
+  const calculateMilestoneProgress = (allSkills, requiredSkills) => {
+    const relevantSkills = allSkills.filter(skill => requiredSkills.includes(skill.name));
+    const achievedCount = relevantSkills.filter(skill => skill.status === 'Achieved').length;
+    return Math.round((achievedCount / relevantSkills.length) * 100);
   };
 
-  const overallProgress = calculateOverallProgress();
+  const getMilestoneStatus = (progress) => {
+    if (progress === 100) return 'completed';
+    if (progress > 0) return 'in_progress';
+    return 'pending';
+  };
 
   const Header = () => (
-    <header className="px-6 py-4 flex items-center justify-between shadow-lg"
-      style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md">
-          <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
+       <header
+         className="px-6 py-4 flex items-center justify-between shadow-lg"
+         style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}
+       >
+         <div className="flex items-center gap-3">
+           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
+             <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
+           </div>
+           <span className="text-white text-xl font-bold">Mentora - progress</span>
+         </div>
+   
+         <div className="flex items-center gap-4">
+           <img
+           onClick={() => navigate('/profile')}
+             src={user.avatar}
+             alt="Profile"
+             className="w-10 h-10 rounded-full border-2 border-white hover:scale-110 hover:opacity-90 transition-all cursor-pointer"
+           />
+         </div>
+       </header>
+     );
+   
+  
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'completed':
+        return 'bg-green-100 text-green-700';
+      case 'in_progress':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'pending':
+        return 'bg-gray-100 text-gray-700';
+      default:
+        return 'bg-gray-100 text-gray-700';
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'completed':
+        return <CheckCircle className="w-4 h-4" />;
+      case 'in_progress':
+        return <Clock className="w-4 h-4" />;
+      case 'pending':
+        return <AlertCircle className="w-4 h-4" />;
+      default:
+        return <AlertCircle className="w-4 h-4" />;
+    }
+  };
+
+  if (progressData === null) {
+    return (
+      <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 mx-auto mb-4"></div>
+          <p style={{ color: M.text }}>Loading career progress...</p>
         </div>
-        <span className="text-white text-xl font-bold">Mentora</span>
       </div>
-
-      <nav className="flex items-center gap-4">
-        <button onClick={() => navigate('/career-builder')} className="text-white font-medium hover:underline hidden md:block">Career Builder</button>
-        <button onClick={() => navigate('/study-planner')} className="text-white font-medium hover:underline hidden md:block">Study Planner</button>
-        <button onClick={() => navigate('/profile')} className="text-white hover:underline">
-          <img src={user.avatar} alt="Profile" className="w-6 h-6 rounded-full" />
-        </button>
-      </nav>
-    </header>
-  );
-
-  const BottomNav = () => (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg z-40">
-      <div className="flex justify-around items-center py-3">
-        <button onClick={() => navigate('/')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <HomeIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Home</span>
-        </button>
-
-        <button onClick={() => navigate('/dashboard')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <LayoutDashboard className="w-6 h-6" />
-          <span className="text-xs font-medium">Dashboard</span>
-        </button>
-
-        <button onClick={() => navigate('/profile')} className={`flex flex-col items-center gap-1 px-6 py-2 rounded-lg transition-all text-[#5A7A6B]`}>
-          <UserIcon className="w-6 h-6" />
-          <span className="text-xs font-medium">Profile</span>
-        </button>
-      </div>
-    </div>
-  );
-
-  const ProgressBar = ({ progress, label }) => (
-    <div className="mb-4">
-      <div className="flex justify-between items-center mb-2">
-        <span className="text-sm font-medium" style={{ color: M.text }}>{label}</span>
-        <span className="text-sm" style={{ color: M.muted }}>{progress}%</span>
-      </div>
-      <div className="w-full bg-gray-200 rounded-full h-2">
-        <div
-          className="h-2 rounded-full transition-all duration-300"
-          style={{ width: `${progress}%`, background: M.primary }}
-        ></div>
-      </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen pb-24">
       <Header />
       <main className="container mx-auto px-4 mt-6">
-        {/* Overall Progress */}
+        {/* Progress Overview */}
         <div className="bg-white rounded-3xl p-6 shadow-lg border mb-6" style={{ borderColor: M.bg3 }}>
           <h2 className="text-2xl font-bold mb-6" style={{ color: M.text }}>Career Progress Overview</h2>
-          <div className="text-center mb-6">
-            <div className="relative w-32 h-32 mx-auto mb-4">
-              <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 36 36">
-                <path
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  fill="none"
-                  stroke="#E5E7EB"
-                  strokeWidth="2"
-                />
-                <path
-                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                  fill="none"
-                  stroke={M.primary}
-                  strokeWidth="2"
-                  strokeDasharray={`${overallProgress}, 100`}
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="text-2xl font-bold" style={{ color: M.text }}>{overallProgress}%</span>
+
+          <div className="flex items-center justify-between mb-4">
+            <span className="text-lg font-medium" style={{ color: M.text }}>Overall Progress</span>
+            <span className="text-2xl font-bold" style={{ color: M.primary }}>{progressData.overallProgress}%</span>
+          </div>
+
+          <div className="w-full bg-gray-200 rounded-full h-4 mb-6">
+            <div
+              className="h-4 rounded-full transition-all duration-500"
+              style={{ width: `${progressData.overallProgress}%`, background: M.primary }}
+            ></div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="text-center">
+              <div className="text-2xl font-bold mb-1" style={{ color: M.primary }}>
+                {progressData.milestones.filter(m => m.status === 'completed').length}
               </div>
+              <p className="text-sm" style={{ color: M.muted }}>Milestones Completed</p>
             </div>
-            <p className="text-sm" style={{ color: M.muted }}>Overall Career Progress</p>
-          </div>
-          <ProgressBar progress={progressData.skillsProgress.technical} label="Technical Skills" />
-          <ProgressBar progress={progressData.skillsProgress.soft} label="Soft Skills" />
-        </div>
-
-        {/* Goals Tracking */}
-        <div className="bg-white rounded-3xl p-6 shadow-lg border mb-6" style={{ borderColor: M.bg3 }}>
-          <h2 className="text-2xl font-bold mb-6" style={{ color: M.text }}>Goals Tracking</h2>
-          <div className="space-y-4">
-            {progressData.goals.map((goal) => (
-              <div key={goal.id} className="border rounded-lg p-4" style={{ borderColor: M.bg3 }}>
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-semibold" style={{ color: M.text }}>{goal.title}</h3>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    goal.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
-                  }`}>
-                    {goal.status}
-                  </span>
-                </div>
-                <ProgressBar progress={goal.progress} label="" />
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-sm" style={{ color: M.muted }}>Deadline: {goal.deadline}</span>
-                  <span className="text-sm font-medium" style={{ color: M.primary }}>{goal.progress}% Complete</span>
-                </div>
+            <div className="text-center">
+              <div className="text-2xl font-bold mb-1" style={{ color: M.primary }}>
+                {progressData.milestones.filter(m => m.status === 'in_progress').length}
               </div>
-            ))}
+              <p className="text-sm" style={{ color: M.muted }}>In Progress</p>
+            </div>
           </div>
         </div>
 
-        {/* Achievements */}
+        {/* Career Milestones */}
         <div className="bg-white rounded-3xl p-6 shadow-lg border mb-6" style={{ borderColor: M.bg3 }}>
-          <h2 className="text-2xl font-bold mb-6" style={{ color: M.text }}>Recent Achievements</h2>
-          <div className="grid gap-4">
-            {progressData.achievements.map((achievement, index) => (
-              <div key={index} className="flex items-center gap-3 p-3 rounded-lg bg-green-50 border border-green-200">
-                <Trophy className="w-5 h-5 text-green-600 flex-shrink-0" />
-                <span className="text-sm font-medium text-green-800">{achievement}</span>
+          <h2 className="text-2xl font-bold mb-6" style={{ color: M.text }}>Career Milestones</h2>
+          <div className="space-y-6">
+            {progressData.milestones.map((milestone) => (
+              <div key={milestone.id} className="border rounded-lg p-4" style={{ borderColor: M.bg3 }}>
+                <div className="flex items-start justify-between mb-3">
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold mb-1" style={{ color: M.text }}>{milestone.title}</h3>
+                    <p className="text-sm mb-2" style={{ color: M.muted }}>{milestone.description}</p>
+                    <div className="flex items-center gap-2 mb-2">
+                      <Calendar className="w-4 h-4" style={{ color: M.muted }} />
+                      <span className="text-xs" style={{ color: M.muted }}>Deadline: {new Date(milestone.deadline).toLocaleDateString()}</span>
+                    </div>
+                  </div>
+                  <div className={`flex items-center gap-1 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(milestone.status)}`}>
+                    {getStatusIcon(milestone.status)}
+                    {milestone.status.replace('_', ' ').toUpperCase()}
+                  </div>
+                </div>
+
+                <div className="mb-3">
+                  <div className="flex justify-between text-sm mb-1">
+                    <span style={{ color: M.text }}>Progress</span>
+                    <span style={{ color: M.primary }}>{milestone.progress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="h-2 rounded-full transition-all duration-500"
+                      style={{ width: `${milestone.progress}%`, background: M.primary }}
+                    ></div>
+                  </div>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  {milestone.skills.map((skill, index) => (
+                    <span
+                      key={index}
+                      className="px-2 py-1 bg-blue-50 text-blue-700 rounded text-xs font-medium"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
@@ -252,22 +352,28 @@ export default function CareerProgress() {
         {/* Action Buttons */}
         <div className="flex justify-center gap-4">
           <button
-            onClick={() => navigate('/create-career-builder')}
+            onClick={() => navigate('/career-skills')}
             className="px-6 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all"
             style={{ background: M.primary }}
           >
-            Update Goals
+            View Skills Analysis
+          </button>
+          <button
+            onClick={() => navigate('/career-plan')}
+            className="px-6 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all"
+            style={{ background: M.secondary }}
+          >
+            View Career Plan
           </button>
           <button
             onClick={() => navigate('/career-builder')}
             className="px-6 py-3 rounded-lg text-white font-medium hover:shadow-lg transition-all"
-            style={{ background: M.secondary }}
+            style={{ background: M.primary }}
           >
             Back to Career Builder
           </button>
         </div>
       </main>
-      <BottomNav />
     </div>
   );
 }
