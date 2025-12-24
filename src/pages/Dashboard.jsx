@@ -1,17 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useUser } from '../contexts/UserContext';
-import {
-  BookOpen,
-  CheckSquare,
-  Clock,
-  ChevronRight,
-  Award,
-  TrendingUp,
-  BookOpenCheck,
-  Flame,
-  User as UserIcon,
-} from 'lucide-react';
+import {BookOpen,CheckSquare, Clock, ChevronRight, Award, TrendingUp, BookOpenCheck, Flame, User as UserIcon,} from 'lucide-react';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -25,63 +15,63 @@ export default function Dashboard() {
     bg2: '#EAF4F4',
     bg3: '#E8F3E8',
     text: '#2C3E3F',
-    muted: '#5A7A6B',
-  };
+     muted: '#5A7A6B',
+   };
 
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
+   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   // To-Do
   const [todos, setTodos] = useState([
     { id: 1, text: 'Complete Math Assignment', completed: false },
-    { id: 2, text: 'Read Chapter 5 - Physics', completed: true },
-    { id: 3, text: 'Prepare for Chemistry test', completed: false },
+     { id: 2, text: 'Read Chapter 5 - Physics', completed: true },
+      { id: 3, text: 'Prepare for Chemistry test', completed: false },
   ]);
 
-  // Notes
+   // Notes
   const [notes, setNotes] = useState([
     { id: 1, title: 'Important Formulas', content: 'Newton\'s laws, Kinematic equations, Energy conservation', date: '2024-12-15' },
   ]);
 
-  // Planner
+   // Planner
   const [events, setEvents] = useState([
-    { id: 1, title: 'Math Exam', date: '2024-12-20', time: '10:00', duration: '2h' },
+     { id: 1, title: 'Math Exam', date: '2024-12-20', time: '10:00', duration: '2h' },
     { id: 2, title: 'Physics Lab', date: '2024-12-21', time: '14:00', duration: '3h' },
-  ]);
+   ]);
 
 
 
   // Attendance state
   const [attendanceRecords, setAttendanceRecords] = useState([
-    { id: 1, subject: 'Mathematics', date: '2024-12-15', status: 'present' },
+     { id: 1, subject: 'Mathematics', date: '2024-12-15', status: 'present' },
     { id: 2, subject: 'Physics', date: '2024-12-15', status: 'present' },
     { id: 3, subject: 'Chemistry', date: '2024-12-14', status: 'absent' },
     { id: 4, subject: 'Computer Science', date: '2024-12-14', status: 'present' },
-    { id: 5, subject: 'Mathematics', date: '2024-12-13', status: 'present' },
+     { id: 5, subject: 'Mathematics', date: '2024-12-13', status: 'present' },
   ]);
 
-  // Helpers
-  const addTodo = () => {
-    const newTodoText = prompt('Enter new task:');
-    if (newTodoText?.trim()) {
+   // Helpers
+   const addTodo = () => {
+      const newTodoText = prompt('Enter new task:');
+      if (newTodoText?.trim()) {
       setTodos((t) => [...t, { id: Date.now(), text: newTodoText.trim(), completed: false }]);
-    }
+     }
   };
-  const toggleTodo = (id) => {
+   const toggleTodo = (id) => {
     setTodos((t) => t.map(x => x.id === id ? { ...x, completed: !x.completed } : x));
-    if (!todos.find(x => x.id === id).completed) {
-      setUser(u => ({ ...u, completedTasks: u.completedTasks + 1 }));
-    }
-  };
-  const deleteTodo = (id) => setTodos((t) => t.filter(x => x.id !== id));
+      if (!todos.find(x => x.id === id).completed) {
+        setUser(u => ({ ...u, completedTasks: u.completedTasks + 1 }));
+      }
+   };
+    const deleteTodo = (id) => setTodos((t) => t.filter(x => x.id !== id));
 
-  const addNote = () => {
-    const title = prompt('Note title:');
-    const content = prompt('Note content:');
-    if (title?.trim() && content?.trim()) {
-      setNotes(n => [{ id: Date.now(), title: title.trim(), content: content.trim(), date: new Date().toISOString().split('T')[0] }, ...n]);
+   const addNote = () => {
+     const title = prompt('Note title:');
+     const content = prompt('Note content:');
+     if (title?.trim() && content?.trim()) {
+       setNotes(n => [{ id: Date.now(), title: title.trim(), content: content.trim(), date: new Date().toISOString().split('T')[0] }, ...n]);
     }
-  };
-  const deleteNote = (id) => setNotes(n => n.filter(x => x.id !== id));
+    };
+   const deleteNote = (id) => setNotes(n => n.filter(x => x.id !== id));
 
   const addEvent = (title, date, time) => {
     if (!title || !date || !time) return;
@@ -91,57 +81,57 @@ export default function Dashboard() {
 
 
 
-  const markAttendance = (subject, status) => {
-    const today = new Date().toISOString().split('T')[0];
-    setAttendanceRecords(a => [{ id: Date.now(), subject, date: today, status }, ...a]);
-  };
+   const markAttendance = (subject, status) => {
+     const today = new Date().toISOString().split('T')[0];
+     setAttendanceRecords(a => [{ id: Date.now(), subject, date: today, status }, ...a]);
+   };
 
   // Calculate attendance stats
   const attendanceStats = {
-    total: attendanceRecords.length,
-    present: attendanceRecords.filter(r => r.status === 'present').length,
-    absent: attendanceRecords.filter(r => r.status === 'absent').length,
+     total: attendanceRecords.length,
+      present: attendanceRecords.filter(r => r.status === 'present').length,
+       absent: attendanceRecords.filter(r => r.status === 'absent').length,
     percentage: Math.round((attendanceRecords.filter(r => r.status === 'present').length / attendanceRecords.length) * 100) || 0,
-  };
+    };
 
-  const Header = () => (
+    const Header = () => (
       <header
-        className="px-6 py-4 flex items-center justify-between shadow-lg"
+           className="px-6 py-4 flex items-center justify-between shadow-lg"
         style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
-            <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
+       >
+         <div className="flex items-center gap-3">
+           <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-md border-2 border-gray-300">
+             <BookOpen className="w-6 h-6" style={{ color: M.primary }} />
           </div>
-          <span className="text-white text-xl font-bold">Mentora</span>
-        </div>
+            <span className="text-white text-xl font-bold">Mentora</span>
+         </div>
   
-        <div className="flex items-center gap-4">
-          <nav className="flex items-center gap-4">
-            <button
+         <div className="flex items-center gap-4">
+             <nav className="flex items-center gap-4">
+              <button
               onClick={() => navigate('/study-planner')}
               className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block"
             >
-              Study Planner
+                 Study Planner
             </button>
-            <button
-              onClick={() => navigate('/career-builder')}
-              className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block"
-            >
+              <button
+                onClick={() => navigate('/career-builder')}
+                className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block"
+              >
               Career Builder
-            </button>
+             </button>
             <button
-              onClick={() => navigate('/dashboard')}
+                onClick={() => navigate('/dashboard')}
               className="text-white font-medium hover:bg-white/20 hover:text-white transition-all duration-300 px-3 py-2 rounded-lg hidden md:block"
-            >
-              Dashboard
-            </button>
-          </nav>
-          <img
-          onClick={() => navigate('/profile')}
-            src={user.avatar}
-            alt="Profile"
-            className="w-10 h-10 rounded-full border-2 border-white hover:scale-110 hover:opacity-90 transition-all cursor-pointer"
+              >
+                       Dashboard
+                     </button>
+              </nav>
+                  <img
+               onClick={() => navigate('/profile')}
+                 src={user.avatar}
+               alt="Profile"
+                className="w-10 h-10 rounded-full border-2 border-white hover:scale-110 hover:opacity-90 transition-all cursor-pointer"
           />
         </div>
       </header>
@@ -149,58 +139,59 @@ export default function Dashboard() {
   
   return (
     <div style={{ background: `linear-gradient(180deg, ${M.bg1}, ${M.bg2})` }} className="min-h-screen text-[#2C3E3F]">
-      <Header />
+         <Header />
       <main className="container mx-auto px-4 mt-6">
-        {/* Stats Grid */}
+           {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-2xl p-4 shadow-lg border hover:scale-105 transition-transform" style={{ borderColor: M.bg3 }}>
+                <div className="bg-white rounded-2xl p-4 shadow-lg border hover:scale-105 transition-transform" style={{ borderColor: M.bg3 }}>
             <div className="flex items-center justify-between">
-              <div>
+                   <div>
                 <p className="text-sm text-[#5A7A6B]">Study Hours</p>
-                <p className="text-2xl font-bold" style={{ color: M.primary }}>{user.totalHours}h</p>
+                   <p className="text-2xl font-bold" style={{ color: M.primary }}>{user.totalHours}h</p>
               </div>
-              <Clock className="w-8 h-8" style={{ color: M.primary }} />
+                 <Clock className="w-8 h-8" style={{ color: M.primary }} />
             </div>
-          </div>
+               </div>
           <div className="bg-white rounded-2xl p-4 shadow-lg border hover:scale-105 transition-transform" style={{ borderColor: M.bg3 }}>
-            <div className="flex items-center justify-between">
+                 <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-[#5A7A6B]">Completed</p>
+                    <p className="text-sm text-[#5A7A6B]">Completed</p>
                 <p className="text-2xl font-bold" style={{ color: M.primary }}>{user.completedTasks}</p>
-              </div>
-              <Award className="w-8 h-8" style={{ color: M.primary }} />
-            </div>
-          </div>
-          <div className="bg-white rounded-2xl p-4 shadow-lg border hover:scale-105 transition-transform" style={{ borderColor: M.bg3 }}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5A7A6B]">Streak</p>
+                    </div>
+                <Award className="w-8 h-8" style={{ color: M.primary }} />
+                       </div>
+                 </div>
+                    <div className="bg-white rounded-2xl p-4 shadow-lg border hover:scale-105 transition-transform" style={{ borderColor: M.bg3 }}>
+                 <div className="flex items-center justify-between">
+               <div>
+                      <p className="text-sm text-[#5A7A6B]">Streak</p>
                 <p className="text-2xl font-bold" style={{ color: M.primary }}>{user.studyStreak} days</p>
-              </div>
+                  </div>
               <Flame className="w-8 h-8 text-orange-500" />
-            </div>
+                     </div>
           </div>
           <div className="bg-white rounded-2xl p-4 shadow-lg border hover:scale-105 transition-transform" style={{ borderColor: M.bg3 }}>
             <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-[#5A7A6B]">Attendance</p>
+                <div>
+                  <p className="text-sm text-[#5A7A6B]">Attendance</p>
                 <p className="text-2xl font-bold" style={{ color: M.primary }}>{attendanceStats.percentage}%</p>
-              </div>
-              <TrendingUp className="w-8 h-8" style={{ color: M.primary }} />
+               </div>
+                <TrendingUp className="w-8 h-8" style={{ color: M.primary }} />
             </div>
-          </div>
+            </div>
         </div>
 
 
 
-        {/* Upcoming Events & Tasks */}
-        <div className="bg-white rounded-2xl p-6 shadow-lg border" style={{ borderColor: M.bg3 }}>
+          {/* Upcoming Events & Tasks */}
+          <div className="bg-white rounded-2xl p-6 shadow-lg border" style={{ borderColor: M.bg3 }}>
           <h3 className="font-bold text-[#2C3E3F] flex items-center gap-2 mb-4">
-            <BookOpenCheck className="w-5 h-5" style={{ color: M.primary }} />
-            Upcoming Events & Tasks
+                <BookOpenCheck className="w-5 h-5" style={{ color: M.primary }} />
+               Upcoming Events & Tasks
           </h3>
           <div className="space-y-4">
-            {/* Upcoming Events */}
+
+             
             <div>
               <h4 className="text-sm font-semibold text-[#5A7A6B] mb-2 flex items-center gap-2">
                 <Clock className="w-4 h-4" />

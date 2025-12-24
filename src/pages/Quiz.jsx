@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useUser } from '../contexts/UserContext'; // لإدارة حالة المستخدم العامة
-import {
-  HelpCircle,
-  CheckSquare,
-  Play,
-  RotateCcw,
-  ChevronRight,
-  ChevronLeft,
-} from 'lucide-react';
+import { useUser } from '../contexts/UserContext'; 
+import { HelpCircle, CheckSquare, Play, RotateCcw, ChevronRight, ChevronLeft,} from 'lucide-react';
 
 export default function StudyPlannerAssessment() {
   const navigate = useNavigate();
-  const { user, setUser } = useUser(); // استخدام السياق العام للمستخدم
+  const { user, setUser } = useUser();  
+  
 
-  // Theme colors
+
   const M = {
     primary: '#6B9080',
     secondary: '#A4C3B2',
@@ -27,7 +21,7 @@ export default function StudyPlannerAssessment() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
-  // Quiz state
+  // Quiz state 
   const [quizzes, setQuizzes] = useState([
     {
       id: 1,
@@ -185,7 +179,7 @@ export default function StudyPlannerAssessment() {
 
  
 
-  // Header Component
+  // Header 
   const Header = () => (
     <header className="px-6 py-4 flex items-center justify-between shadow-lg"
       style={{ background: `linear-gradient(90deg, ${M.primary}, ${M.secondary})` }}>
@@ -454,42 +448,7 @@ export default function StudyPlannerAssessment() {
             </div>
           )}
 
-          {/* Great Planner AI Analysis Section */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg mb-6 border" style={{ borderColor: M.bg3, background: `linear-gradient(135deg, ${M.bg1}, white)` }}>
-            <h3 className="text-xl font-bold text-[#2C3E3F] mb-4 flex items-center gap-2">
-              🎯 Great Planner - AI Analysis
-            </h3>
-
-            <div className="space-y-4">
-              <div className="p-4 rounded-lg border" style={{ borderColor: M.bg3, background: M.bg1 }}>
-                <h4 className="font-semibold text-[#2C3E3F] mb-2">📊 Analysis Summary</h4>
-                <p className="text-[#5A7A6B] text-sm">
-                  Based on your responses, our AI has analyzed your study patterns, goals, and challenges to create a personalized learning strategy.
-                  Your study plan has been optimized for maximum effectiveness based on your available time, preferred learning style, and academic objectives.
-                </p>
-              </div>
-
-              <div className="p-4 rounded-lg border" style={{ borderColor: M.bg3, background: M.bg1 }}>
-                <h4 className="font-semibold text-[#2C3E3F] mb-2">🤖 AI Insights</h4>
-                <div className="space-y-2 text-sm text-[#5A7A6B]">
-                  <p><strong>Study Style:</strong> {quizAnswers[4]?.includes('Detailed') ? 'Structured Planner' : quizAnswers[4]?.includes('Flexible') ? 'Adaptive Learner' : 'Goal-Oriented Student'}</p>
-                  <p><strong>Focus Pattern:</strong> {quizAnswers[5]?.includes('25-45') ? 'Pomodoro Compatible' : quizAnswers[5]?.includes('60-90') ? 'Deep Focus' : 'Short Bursts'}</p>
-                  <p><strong>Motivation Type:</strong> {quizAnswers[11]?.includes('personal goals') ? 'Intrinsic' : quizAnswers[11]?.includes('competition') ? 'Competitive' : 'Achievement-Driven'}</p>
-                  <p><strong>Success Probability:</strong> <span className="text-green-600 font-medium">High (85%)</span> - With consistent application of this plan</p>
-                </div>
-              </div>
-
-              <div className="p-4 rounded-lg border" style={{ borderColor: M.bg3, background: M.bg1 }}>
-                <h4 className="font-semibold text-[#2C3E3F] mb-2">🎯 Key Recommendations</h4>
-                <ul className="space-y-1 text-sm text-[#5A7A6B]">
-                  <li>• Start with your most challenging subjects during peak energy times</li>
-                  <li>• Use the recommended study techniques for better retention</li>
-                  <li>• Track your progress weekly to stay motivated</li>
-                  <li>• Adjust the schedule as needed while maintaining consistency</li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          
 
           <div className="flex gap-4">
             <button
